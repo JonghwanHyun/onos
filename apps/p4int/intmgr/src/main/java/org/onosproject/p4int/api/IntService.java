@@ -89,6 +89,7 @@ public interface IntService {
      * Installs an IntIntent to devices.
      *
      * @param intIntent an IntIntent
+     * @return intent ID
      */
     int installIntIntent(IntIntent intIntent);
 
