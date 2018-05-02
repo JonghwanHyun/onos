@@ -24,9 +24,9 @@ import org.apache.felix.scr.annotations.Service;
 import org.onlab.util.KryoNamespace;
 import org.onosproject.core.ApplicationId;
 import org.onosproject.core.CoreService;
+import org.onosproject.net.Device;
 import org.onosproject.net.DeviceId;
 import org.onosproject.net.device.DeviceService;
-import org.onosproject.net.flow.FlowId;
 import org.onosproject.net.flow.FlowRule;
 import org.onosproject.net.flow.FlowRuleService;
 import org.onosproject.net.host.HostService;
@@ -128,7 +128,14 @@ public class IntManager implements IntService {
 
     @Override
     public void startInt(Set<DeviceId> deviceIds) {
-
+        deviceIds.forEach(deviceId -> {
+            Device device = deviceService.getDevice(deviceId);
+            if (device.is(IntProgrammable.class) &&
+                    getIntRole(deviceId) == IntDeviceRole.TRANSIT) {
+                IntProgrammable intDevice = device.as(IntProgrammable.class);
+                intDevice.init(appId);
+            }
+        });
     }
 
     @Override
@@ -154,7 +161,7 @@ public class IntManager implements IntService {
 
     @Override
     public IntConfig getConfig() {
-        return this.cfg;
+        return cfg;
     }
 
     @Override

@@ -30,6 +30,12 @@
 #include "include/spgw.p4"
 #endif // WITH_SPGW
 
+#ifdef WITH_INT
+#include "include/int_source.p4"
+#include "include/int_transit.p4"
+#include "include/int_sink.p4"
+#endif // WITH_INT
+
 control FabricIngress (
 inout parsed_headers_t hdr,
 inout fabric_metadata_t fabric_metadata,
@@ -54,8 +60,12 @@ inout standard_metadata_t standard_metadata) {
         filtering.apply(hdr, fabric_metadata, standard_metadata);
         forwarding.apply(hdr, fabric_metadata, standard_metadata);
         next.apply(hdr, fabric_metadata, standard_metadata);
+#ifdef WITH_INT
+        process_set_source_sink.apply(hdr, fabric_metadata, standard_metadata);
+#endif // WITH_INT
         port_counters_control.apply(hdr, fabric_metadata, standard_metadata);
         egress_next.apply(hdr, fabric_metadata, standard_metadata);
+        
     }
 }
 
@@ -64,6 +74,22 @@ control FabricEgress (inout parsed_headers_t hdr,
                       inout standard_metadata_t standard_metadata) {
     PacketIoEgress() pkt_io_egress;
     apply {
+#ifdef WITH_INT
+        if (standard_metadata.ingress_port != CPU_PORT &&
+            standard_metadata.egress_port != CPU_PORT &&
+            (hdr.udp.isValid() || hdr.tcp.isValid())) {
+            if (fabric_metadata.int_meta.sink == 0 && fabric_metadata.int_meta.source == 1) {
+                process_int_source.apply(hdr, fabric_metadata, standard_metadata);
+            }
+            if(hdr.int_header.isValid()) {
+                process_int_transit.apply(hdr, fabric_metadata, standard_metadata);
+                // update underlay header based on INT information inserted
+                process_int_outer_encap.apply(hdr, fabric_metadata, standard_metadata);
+                // int sink
+                process_int_sink.apply(hdr, fabric_metadata, standard_metadata);
+            }
+        }
+#endif // WITH_INT
         pkt_io_egress.apply(hdr, fabric_metadata, standard_metadata);
 #ifdef WITH_SPGW
         spgw_egress.apply(hdr.ipv4, hdr.gtpu_ipv4, hdr.gtpu_udp, hdr.gtpu,

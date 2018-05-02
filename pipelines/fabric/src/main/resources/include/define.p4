@@ -91,4 +91,15 @@ const direction_t DIR_DOWNLINK = 1w1;
 const pcc_gate_status_t PCC_GATE_OPEN = 1w0;
 const pcc_gate_status_t PCC_GATE_CLOSED = 1w1;
 
+// INT-related definitions
+/* indicate INT at LSB of DSCP */
+const bit<6> INT_DSCP = 0x1;
+
+typedef bit<48> timestamp_t;
+typedef bit<32> switch_id_t;
+
+const bit<8> INT_HEADER_LEN_WORD = 2;
+const bit<8> CPU_MIRROR_SESSION_ID = 250;
+const bit<8> INT_WORD_SIZE = 4;
+
 #endif

@@ -48,16 +48,20 @@ public class PipeconfLoader {
 
     public static final PiPipeconfId FABRIC_PIPECONF_ID =
             new PiPipeconfId("org.onosproject.pipelines.fabric");
-
+    public static final PiPipeconfId FABRIC_INT_PIPECONF_ID =
+            new PiPipeconfId("fabric-int-pipeconf");
     private static final String FABRIC_JSON_PATH = "/p4c-out/bmv2/fabric.json";
     private static final String FABRIC_P4INFO_PATH = "/p4c-out/bmv2/fabric.p4info";
+    private static final String FABRIC_INT_JSON_PATH = "/p4c-out/bmv2/fabric-int.json";
+    private static final String FABRIC_INT_P4INFO_PATH = "/p4c-out/bmv2/fabric-int.p4info";
 
     private static final PiPipeconf FABRIC_PIPECONF = buildFabricPipeconf();
+    private static final PiPipeconf FABRIC_INT_PIPECONF = buildFabricIntPipeconf();
 
     // XXX: Use a collection to hold only one pipeconf because we might separate
     // fabric pipeconf to leaf/spine pipeconf in the future.
     private static final Collection<PiPipeconf> ALL_PIPECONFS =
-            ImmutableList.of(FABRIC_PIPECONF);
+            ImmutableList.of(FABRIC_PIPECONF, FABRIC_INT_PIPECONF);
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     private PiPipeconfService piPipeconfService;
@@ -82,6 +86,22 @@ public class PipeconfLoader {
                 .withId(FABRIC_PIPECONF_ID)
                 .withPipelineModel(model)
                 .addBehaviour(PiPipelineInterpreter.class, FabricInterpreter.class)
+                .addBehaviour(Pipeliner.class, FabricPipeliner.class)
+                .addBehaviour(PortStatisticsDiscovery.class, FabricPortStatisticsDiscovery.class)
+                .addExtension(P4_INFO_TEXT, p4InfoUrl)
+                .addExtension(BMV2_JSON, jsonUrl)
+                .build();
+    }
+
+    private static PiPipeconf buildFabricIntPipeconf() {
+        final URL jsonUrl = PipeconfLoader.class.getResource(FABRIC_INT_JSON_PATH);
+        final URL p4InfoUrl = PipeconfLoader.class.getResource(FABRIC_INT_P4INFO_PATH);
+        final PiPipelineModel model = parseP4Info(p4InfoUrl);
+        // TODO: add properties to pipeconf instead of adding it to driver
+        return DefaultPiPipeconf.builder()
+                .withId(FABRIC_INT_PIPECONF_ID)
+                .withPipelineModel(model)
+                .addBehaviour(PiPipelineInterpreter.class, FabricIntInterpreter.class)
                 .addBehaviour(Pipeliner.class, FabricPipeliner.class)
                 .addBehaviour(PortStatisticsDiscovery.class, FabricPortStatisticsDiscovery.class)
                 .addExtension(P4_INFO_TEXT, p4InfoUrl)
