@@ -32,7 +32,7 @@
 #include "include/int_transit.p4"
 #include "include/int_sink.p4"
 
-control int_ingress (
+control ingress (
     inout headers_t hdr,
     inout local_metadata_t local_metadata,
     inout standard_metadata_t standard_metadata) {
@@ -44,7 +44,7 @@ control int_ingress (
     }
 }
 
-control int_egress (
+control egress (
     inout headers_t hdr,
     inout local_metadata_t local_metadata,
     inout standard_metadata_t standard_metadata) {
@@ -75,8 +75,8 @@ control int_egress (
 V1Switch(
     int_parser(),
     verify_checksum_control(),
-    int_ingress(),
-    int_egress(),
+    ingress(),
+    egress(),
     compute_checksum_control(),
     int_deparser()
 ) main;
