@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onosproject.p4int.api;
+package org.onosproject.pipelines.basic;
 
 import com.google.common.annotations.Beta;
 import org.onosproject.core.ApplicationId;
@@ -36,9 +36,9 @@ public interface IntProgrammable extends HandlerBehaviour {
     /**
      * Installs a given watchlist entry to the device.
      *
-     * @param intent an IntIntent
+     * @param obj an objective
      */
-    void addWatchlistEntry(IntIntent intent);
+    void addWatchlistEntry(IntObjective obj);
 
 //    /**
 //     * Removes a given watchlist entry from the device.
@@ -75,12 +75,12 @@ public interface IntProgrammable extends HandlerBehaviour {
 //     */
 //    void removeIntSinkEntry(IntFlow flow);
 //
-    /**
-     * Set up report-related configuration.
-     *
-     * @param config a configuration regarding to the collector
-     */
-    void setupReportEntry(IntConfig config);
+//    /**
+//     * Set up report-related configuration.
+//     *
+//     * @param config a configuration regarding to the collector
+//     */
+//    void setupReportEntry(IntConfig config);
 //
 //    /**
 //     * Installs given event onto the device.

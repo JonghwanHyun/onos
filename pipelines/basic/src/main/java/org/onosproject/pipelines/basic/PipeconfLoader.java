@@ -103,6 +103,7 @@ public final class PipeconfLoader {
                 .addBehaviour(PiPipelineInterpreter.class, BasicInterpreterImpl.class)
                 .addBehaviour(Pipeliner.class, DefaultSingleTablePipeline.class)
                 .addBehaviour(PortStatisticsDiscovery.class, PortStatisticsDiscoveryImpl.class)
+                .addBehaviour(IntProgrammable.class, IntProgrammableImpl.class)
                 .addExtension(P4_INFO_TEXT, p4InfoUrl)
                 .addExtension(BMV2_JSON, jsonUrl)
                 .build();

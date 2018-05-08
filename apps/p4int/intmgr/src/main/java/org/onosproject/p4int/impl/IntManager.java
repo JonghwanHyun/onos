@@ -35,7 +35,7 @@ import org.onosproject.net.host.HostService;
 import org.onosproject.net.topology.TopologyService;
 import org.onosproject.p4int.api.IntConfig;
 import org.onosproject.p4int.api.IntIntent;
-import org.onosproject.p4int.api.IntProgrammable;
+import org.onosproject.pipelines.basic.IntProgrammable;
 import org.onosproject.p4int.api.IntService;
 import org.onosproject.store.serializers.KryoNamespaces;
 import org.onosproject.store.service.AtomicIdGenerator;
@@ -159,7 +159,7 @@ public class IntManager implements IntService {
         deviceService.getAvailableDevices().forEach(device -> {
             if (device.is(IntProgrammable.class)) {
                 IntProgrammable intDevice = device.as(IntProgrammable.class);
-                intDevice.setupReportEntry(cfg);
+//                intDevice.setupReportEntry(cfg);
             }
         });
     }

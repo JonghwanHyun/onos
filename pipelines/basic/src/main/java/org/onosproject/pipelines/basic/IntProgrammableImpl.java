@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onosproject.p4int.impl;
+package org.onosproject.pipelines.basic;
 
 import com.google.common.collect.ImmutableBiMap;
 import org.apache.felix.scr.annotations.Reference;
@@ -23,7 +23,6 @@ import org.onlab.packet.MacAddress;
 import org.onlab.util.ImmutableByteSequence;
 import org.onosproject.core.ApplicationId;
 import org.onosproject.net.ConnectPoint;
-import org.onosproject.net.Device;
 import org.onosproject.net.DeviceId;
 import org.onosproject.net.Port;
 import org.onosproject.net.PortNumber;
@@ -43,13 +42,6 @@ import org.onosproject.net.pi.model.PiMatchFieldId;
 import org.onosproject.net.pi.model.PiTableId;
 import org.onosproject.net.pi.runtime.PiAction;
 import org.onosproject.net.pi.runtime.PiActionParam;
-import org.onosproject.net.topology.TopologyService;
-import org.onosproject.p4int.api.IntConfig;
-import org.onosproject.p4int.api.IntIntent;
-import org.onosproject.p4int.api.IntProgrammable;
-import org.onosproject.p4int.api.IntService;
-import org.onosproject.pipelines.basic.BasicConstants;
-import org.onosproject.pipelines.basic.IntConstants;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
@@ -215,7 +207,7 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
     }
 
     @Override
-    public void addWatchlistEntry(IntIntent intent) {
+    public void addWatchlistEntry(IntObjective intent) {
         // TODO: support different types of watchlist other than flow watchlist
 
         //process_int_source.tb_int_source
@@ -276,19 +268,19 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
 //        flowRuleService.removeFlowRules(flowRule);
 //    }
 //
-    @Override
-    public void setupReportEntry(IntConfig config) {
-        // Synthesize IP address and MAC address for this device,
-        // which makes the collector identify where the report comes from.
-        // Note that if a collector is directly attached to the device,
-        // that interface's IP and MAC address should be used.
-
-        IpAddress sinkIp = IpAddress.valueOf(deviceId.hashCode());
-        MacAddress sinkMac = MacAddress.valueOf(deviceId.hashCode());
-
-        // TODO: install a flow rule for report generation
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+//    @Override
+//    public void setupReportEntry(IntConfig config) {
+//        // Synthesize IP address and MAC address for this device,
+//        // which makes the collector identify where the report comes from.
+//        // Note that if a collector is directly attached to the device,
+//        // that interface's IP and MAC address should be used.
+//
+//        IpAddress sinkIp = IpAddress.valueOf(deviceId.hashCode());
+//        MacAddress sinkMac = MacAddress.valueOf(deviceId.hashCode());
+//
+//        // TODO: install a flow rule for report generation
+//        throw new UnsupportedOperationException("Not implemented yet");
+//    }
 
     private void populateInstTableEntry(PiTableId tableId, PiMatchFieldId matchFieldId,
                                         int matchValue, PiActionId actionId, ApplicationId appId) {

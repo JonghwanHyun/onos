@@ -34,7 +34,7 @@ public final class IntConstants {
     }
 
     // Strings
-    private static final String EGRESS = "int_egress";
+    private static final String EGRESS = "egress";
     private static final String CTRL_SET_SOURCE_SINK = EGRESS + DOT + "process_set_source_sink";
     private static final String CTRL_INT_SOURCE = EGRESS + DOT + "process_int_source";
     private static final String CTRL_INT_TRANSIT = EGRESS + DOT + "process_int_transit";

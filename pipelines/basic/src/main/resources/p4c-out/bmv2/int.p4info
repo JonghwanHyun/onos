@@ -166,12 +166,6 @@ tables {
     name: "int_egress.process_int_transit.tb_int_insert"
     alias: "tb_int_insert"
   }
-  match_fields {
-    id: 1
-    name: "local_metadata.int_meta.sink"
-    bitwidth: 1
-    match_type: EXACT
-  }
   action_refs {
     id: 16782456
   }

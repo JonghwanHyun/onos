@@ -5349,7 +5349,7 @@
           ],
           "source_info" : {
             "filename" : "./include/int_transit.p4",
-            "line" : 306,
+            "line" : 304,
             "column" : 8,
             "source_fragment" : "hdr.ipv4.len = hdr.ipv4.len + local_metadata.int_meta.insert_byte_cnt"
           }
@@ -5398,7 +5398,7 @@
           ],
           "source_info" : {
             "filename" : "./include/int_transit.p4",
-            "line" : 309,
+            "line" : 307,
             "column" : 8,
             "source_fragment" : "hdr.udp.length_ = hdr.udp.length_ + local_metadata.int_meta.insert_byte_cnt"
           }
@@ -5457,7 +5457,7 @@
           ],
           "source_info" : {
             "filename" : "./include/int_transit.p4",
-            "line" : 312,
+            "line" : 310,
             "column" : 8,
             "source_fragment" : "hdr.intl4_shim.len = hdr.intl4_shim.len + (bit<8>)hdr.int_header.ins_cnt"
           }
@@ -6338,14 +6338,7 @@
             "column" : 10,
             "source_fragment" : "tb_int_insert"
           },
-          "key" : [
-            {
-              "match_type" : "exact",
-              "name" : "local_metadata.int_meta.sink",
-              "target" : ["userMetadata.int_meta", "sink"],
-              "mask" : null
-            }
-          ],
+          "key" : [],
           "match_type" : "exact",
           "type" : "simple",
           "max_size" : 2,
@@ -6371,7 +6364,7 @@
           "id" : 7,
           "source_info" : {
             "filename" : "./include/int_transit.p4",
-            "line" : 239,
+            "line" : 237,
             "column" : 10,
             "source_fragment" : "tb_int_inst_0003"
           },
@@ -6423,7 +6416,7 @@
           "id" : 8,
           "source_info" : {
             "filename" : "./include/int_transit.p4",
-            "line" : 266,
+            "line" : 264,
             "column" : 10,
             "source_fragment" : "tb_int_inst_0407"
           },
@@ -6791,7 +6784,7 @@
           "id" : 4,
           "source_info" : {
             "filename" : "./include/int_transit.p4",
-            "line" : 316,
+            "line" : 314,
             "column" : 12,
             "source_fragment" : "hdr.ipv4.isValid()"
           },
@@ -6814,7 +6807,7 @@
           "id" : 5,
           "source_info" : {
             "filename" : "./include/int_transit.p4",
-            "line" : 319,
+            "line" : 317,
             "column" : 12,
             "source_fragment" : "hdr.udp.isValid()"
           },
@@ -6837,7 +6830,7 @@
           "id" : 6,
           "source_info" : {
             "filename" : "./include/int_transit.p4",
-            "line" : 322,
+            "line" : 320,
             "column" : 12,
             "source_fragment" : "hdr.intl4_shim.isValid()"
           },
