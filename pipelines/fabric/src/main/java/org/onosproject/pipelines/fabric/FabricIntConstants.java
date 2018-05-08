@@ -5,9 +5,7 @@ import org.onosproject.net.pi.model.PiActionParamId;
 import org.onosproject.net.pi.model.PiMatchFieldId;
 import org.onosproject.net.pi.model.PiTableId;
 
-import static org.onosproject.pipelines.fabric.FabricConstants.DOT;
-import static org.onosproject.pipelines.fabric.FabricConstants.FABRIC_METADATA;
-import static org.onosproject.pipelines.fabric.FabricConstants.HDR;
+import static org.onosproject.pipelines.fabric.FabricConstants.*;
 
 public final class FabricIntConstants {
     // Hide default constructor
@@ -15,15 +13,15 @@ public final class FabricIntConstants {
     }
 
     // Strings
-    private static final String CTRL_SET_SOURCE_SINK = "process_set_source_sink";
-    private static final String CTRL_INT_SOURCE = "process_int_source";
-    private static final String CTRL_INT_TRANSIT = "process_int_transit";
-    private static final String CTRL_INT_SINK = "process_int_sink";
-    private static final String CTRL_INT_OUTER_ENCAP = "process_int_outer_encap";
-    private static final String INT_METADATA = "int_meta";
-    private static final String INT_HDR = "int_header";
     private static final String FABRIC_INGRESS = "FabricIngress";
     private static final String FABRIC_EGRESS = "FabricEgress";
+    private static final String CTRL_SET_SOURCE_SINK = FABRIC_EGRESS + DOT + "process_set_source_sink";
+    private static final String CTRL_INT_SOURCE = FABRIC_EGRESS + DOT + "process_int_source";
+    private static final String CTRL_INT_TRANSIT = FABRIC_EGRESS + DOT + "process_int_transit";
+    private static final String CTRL_INT_SINK = FABRIC_EGRESS + DOT + "process_int_sink";
+    private static final String CTRL_INT_OUTER_ENCAP = FABRIC_EGRESS + DOT + "process_int_outer_encap";
+    private static final String INT_METADATA = "int_meta";
+    private static final String INT_HDR = "int_header";
 
     // Header field IDs
     public static final PiMatchFieldId INT_META_SINK_ID =
@@ -34,9 +32,13 @@ public final class FabricIntConstants {
             PiMatchFieldId.of(HDR + DOT + INT_HDR + DOT + "instruction_mask_0407");
     public static final PiMatchFieldId INT_HDR_INST_MASK_1215_ID =
             PiMatchFieldId.of(HDR + DOT + INT_HDR + DOT + "instruction_mask_1215");
+    public static final PiMatchFieldId HF_STANDARD_METADATA_EGRESS_PORT_ID =
+            PiMatchFieldId.of(STANDARD_METADATA + DOT + "egress_port");
     // Table IDs
-    public static final PiTableId TBL_SET_SOURCE_SINK_ID =
-            PiTableId.of(FABRIC_INGRESS + DOT + CTRL_SET_SOURCE_SINK + DOT + "tb_set_source_sink");
+    public static final PiTableId TBL_SET_SOURCE_ID =
+            PiTableId.of(FABRIC_INGRESS + DOT + CTRL_SET_SOURCE_SINK + DOT + "tb_set_source");
+    public static final PiTableId TBL_SET_SINK_ID =
+            PiTableId.of(FABRIC_INGRESS + DOT + CTRL_SET_SOURCE_SINK + DOT + "tb_set_sink");
     public static final PiTableId TBL_INT_SOURCE_ID =
             PiTableId.of(FABRIC_EGRESS + DOT + CTRL_INT_SOURCE + DOT + "tb_int_source");
     public static final PiTableId TBL_INT_INSERT_ID =
