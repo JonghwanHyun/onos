@@ -97,23 +97,28 @@ control process_set_source_sink (
         local_metadata.int_meta.sink = 1;
     }
 
-    table tb_set_source_sink {
+    table tb_set_source {
         key = {
-            hdr.ipv4.src_addr: ternary;
-            hdr.ipv4.dst_addr: ternary;
-            local_metadata.l4_src_port: ternary;
-            local_metadata.l4_dst_port: ternary;
+            standard_metadata.ingress_port: exact;
         }
         actions = {
             int_set_source;
+        }
+        size = 256;
+    }
+    table tb_set_sink {
+        key = {
+            standard_metadata.egress_port: exact;
+        }
+        actions = {
             int_set_sink;
         }
-        counters = counter_set_source_sink;
-        size = 1024;
+        size = 256;
     }
 
     apply {
-        tb_set_source_sink.apply();
+        tb_set_source.apply();
+        tb_set_sink.apply();
     }
 }
 #endif
