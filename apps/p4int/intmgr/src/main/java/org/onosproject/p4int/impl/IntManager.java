@@ -29,6 +29,8 @@ import org.onosproject.net.DeviceId;
 import org.onosproject.net.device.DeviceService;
 import org.onosproject.net.flow.FlowRule;
 import org.onosproject.net.flow.FlowRuleService;
+import org.onosproject.net.host.HostEvent;
+import org.onosproject.net.host.HostListener;
 import org.onosproject.net.host.HostService;
 import org.onosproject.net.topology.TopologyService;
 import org.onosproject.p4int.api.IntConfig;
@@ -58,6 +60,8 @@ public class IntManager implements IntService {
     private ConsistentMap<DeviceId, IntDeviceRole> deviceRoleConsistentMap;
     private IntConfig cfg;
     private AtomicIdGenerator intentIds;
+
+    private InternalHostListener hostListener = new InternalHostListener();
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected CoreService coreService;
@@ -106,13 +110,14 @@ public class IntManager implements IntService {
                                                     IntDeviceRole.TRANSIT :
                                                     IntDeviceRole.SOURCE_SINK)
         );
-
+        hostService.addListener(hostListener);
         intentIds = storageService.getAtomicIdGenerator("int-intent-id-generator");
         log.info("Started", appId.id());
     }
 
     @Deactivate
     public void deactivate() {
+        hostService.removeListener(hostListener);
         log.info("Deactivated");
     }
 
@@ -207,6 +212,10 @@ public class IntManager implements IntService {
         return deviceRoleConsistentMap.get(deviceId).value();
     }
 
+    private void setIntRole(DeviceId deviceId, IntDeviceRole role) {
+        deviceRoleConsistentMap.put(deviceId, role);
+    }
+
     /**
      * Build a set of flow rules for given device.
      *
@@ -220,4 +229,23 @@ public class IntManager implements IntService {
         return flowRules;
     }
 
+    private class InternalHostListener implements HostListener {
+        @Override
+        public void event(HostEvent event) {
+            DeviceId deviceId = event.subject().location().deviceId();
+            if (!deviceService.getDevice(deviceId).is(IntProgrammable.class)) {
+                return;
+            }
+            switch (event.type()) {
+                case HOST_ADDED:
+                    if (deviceRoleConsistentMap.getOrDefault(deviceId, IntDeviceRole.TRANSIT).value()
+                            != IntDeviceRole.SOURCE_SINK) {
+                        setIntRole(deviceId, IntDeviceRole.SOURCE_SINK);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }

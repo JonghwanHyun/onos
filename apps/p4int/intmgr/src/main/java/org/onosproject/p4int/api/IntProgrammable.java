@@ -18,6 +18,9 @@ package org.onosproject.p4int.api;
 import com.google.common.annotations.Beta;
 import org.onosproject.core.ApplicationId;
 import org.onosproject.net.driver.HandlerBehaviour;
+import org.onosproject.net.flow.TrafficSelector;
+
+import java.util.Set;
 
 @Beta
 public interface IntProgrammable extends HandlerBehaviour {
@@ -33,63 +36,63 @@ public interface IntProgrammable extends HandlerBehaviour {
     /**
      * Installs a given watchlist entry to the device.
      *
-     * @param flow a watchlist entry to install
+     * @param intent an IntIntent
      */
-    void addWatchlistEntry(IntFlow flow);
+    void addWatchlistEntry(IntIntent intent);
 
-    /**
-     * Removes a given watchlist entry from the device.
-     *
-     * @param flow a watchlist entry to remove
-     */
-    void removeWatchlistEntry(IntFlow flow);
-
-    /**
-     * Installs a given flow entry to the INT source device.
-     *
-     * @param flow a flow entry to install
-     */
-    void addIntSourceEntry(IntFlow flow);
-
-    /**
-     * Removes a given flow entry from the INT source device.
-     *
-     * @param flow a flow entry to remove
-     */
-    void removeIntSourceEntry(IntFlow flow);
-
-    /**
-     * Installs a given flow entry to the INT sink device.
-     *
-     * @param flow a flow entry to install
-     */
-    void addIntSinkEntry(IntFlow flow);
-
-    /**
-     * Removes a given flow entry from the INT sink device.
-     *
-     * @param flow a flow entry to remove
-     */
-    void removeIntSinkEntry(IntFlow flow);
-
+//    /**
+//     * Removes a given watchlist entry from the device.
+//     *
+//     * @param flow a watchlist entry to remove
+//     */
+//    void removeWatchlistEntry(IntFlow flow);
+//
+//    /**
+//     * Installs a given flow entry to the INT source device.
+//     *
+//     * @param flow a flow entry to install
+//     */
+//    void addIntSourceEntry(IntFlow flow);
+//
+//    /**
+//     * Removes a given flow entry from the INT source device.
+//     *
+//     * @param flow a flow entry to remove
+//     */
+//    void removeIntSourceEntry(IntFlow flow);
+//
+//    /**
+//     * Installs a given flow entry to the INT sink device.
+//     *
+//     * @param flow a flow entry to install
+//     */
+//    void addIntSinkEntry(IntFlow flow);
+//
+//    /**
+//     * Removes a given flow entry from the INT sink device.
+//     *
+//     * @param flow a flow entry to remove
+//     */
+//    void removeIntSinkEntry(IntFlow flow);
+//
     /**
      * Set up report-related configuration.
      *
      * @param config a configuration regarding to the collector
      */
     void setupReportEntry(IntConfig config);
-
-    /**
-     * Installs given event onto the device.
-     *
-     * @param event an event description to install
-     */
-    void addEventEntry(IntEvent event);
-
-    /**
-     * Removes given event from the device.
-     *
-     * @param event an event description to remove
-     */
-    void removeEventEntry(IntEvent event);
+//
+//    /**
+//     * Installs given event onto the device.
+//     *
+//     * @param event an event description to install
+//     */
+//    void addEventEntry(IntEvent event);
+//
+//    /**
+//     * Removes given event from the device.
+//     *
+//     * @param event an event description to remove
+//     */
+//    void removeEventEntry(IntEvent event);
 }
