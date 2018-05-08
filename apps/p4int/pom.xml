@@ -29,27 +29,25 @@
     <description>ONOS P4 INT support</description>
 
     <properties>
-        <!-- Uncomment to generate ONOS app from this module.
-        <onos.app.name>org.foo.app</onos.app.name>
-        <onos.app.title>Foo App</onos.app.title>
-        <onos.app.origin>Foo, Inc.</onos.app.origin>
-        <onos.app.category>default</onos.app.category>
+        <onos.app.name>org.onosproject.p4int</onos.app.name>
+        <onos.app.title>P4 In-band Network Telemetry Service</onos.app.title>
+        <onos.app.category>Monitoring</onos.app.category>
         <onos.app.url>http://onosproject.org</onos.app.url>
-        <onos.app.readme>ONOS OSGi bundle archetype.</onos.app.readme>
-        -->
+        <onos.app.readme>Provides managements of INT-capable devices. Specifies flows to enable INT and' +
+            'types of metadata to collect. Sets up INT-related information.</onos.app.readme>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.onosproject</groupId>
             <artifactId>onos-api</artifactId>
-            <version>${onos.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.onosproject</groupId>
             <artifactId>onlab-osgi</artifactId>
-            <version>${onos.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -62,7 +60,7 @@
         <dependency>
             <groupId>org.onosproject</groupId>
             <artifactId>onos-api</artifactId>
-            <version>${onos.version}</version>
+            <version>${project.version}</version>
             <scope>test</scope>
             <classifier>tests</classifier>
         </dependency>
