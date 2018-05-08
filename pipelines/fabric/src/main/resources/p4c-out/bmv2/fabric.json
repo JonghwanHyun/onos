@@ -58,7 +58,8 @@
       "fields" : [
         ["version", 4, false],
         ["ihl", 4, false],
-        ["diffserv", 8, false],
+        ["dscp", 6, false],
+        ["ecn", 2, false],
         ["total_len", 16, false],
         ["identification", 16, false],
         ["flags", 3, false],
@@ -777,7 +778,7 @@
       "id" : 0,
       "source_info" : {
         "filename" : "./include/checksum.p4",
-        "line" : 56,
+        "line" : 57,
         "column" : 8,
         "source_fragment" : "verify_checksum(hdr.ipv4.isValid(), ..."
       },
@@ -793,7 +794,11 @@
         },
         {
           "type" : "field",
-          "value" : ["ipv4", "diffserv"]
+          "value" : ["ipv4", "dscp"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "ecn"]
         },
         {
           "type" : "field",
@@ -850,7 +855,11 @@
         },
         {
           "type" : "field",
-          "value" : ["ipv4", "diffserv"]
+          "value" : ["ipv4", "dscp"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "ecn"]
         },
         {
           "type" : "field",
@@ -3453,7 +3462,7 @@
       "id" : 1,
       "source_info" : {
         "filename" : "fabric.p4",
-        "line" : 72,
+        "line" : 69,
         "column" : 8,
         "source_fragment" : "FabricEgress"
       },

@@ -1,7 +1,7 @@
 {
   "program" : "basic.p4",
   "__meta__" : {
-    "version" : [2, 7],
+    "version" : [2, 18],
     "compiler" : "https://github.com/p4lang/p4c"
   },
   "header_types" : [
@@ -187,12 +187,12 @@
   "header_union_stacks" : [],
   "field_lists" : [],
   "errors" : [
-    ["NoError", 1],
-    ["PacketTooShort", 2],
-    ["NoMatch", 3],
-    ["StackOutOfBounds", 4],
-    ["HeaderTooShort", 5],
-    ["ParserTimeout", 6]
+    ["NoError", 0],
+    ["PacketTooShort", 1],
+    ["NoMatch", 2],
+    ["StackOutOfBounds", 3],
+    ["HeaderTooShort", 4],
+    ["ParserTimeout", 5]
   ],
   "enums" : [
     {
@@ -438,7 +438,7 @@
       "name" : "deparser",
       "id" : 0,
       "source_info" : {
-        "filename" : "include/parsers.p4",
+        "filename" : "./include/parsers.p4",
         "line" : 72,
         "column" : 8,
         "source_fragment" : "deparser"
@@ -451,7 +451,7 @@
       "name" : "ingress.port_meters_ingress.ingress_port_meter",
       "id" : 0,
       "source_info" : {
-        "filename" : "include/port_meters.p4",
+        "filename" : "./include/port_meters.p4",
         "line" : 23,
         "column" : 32,
         "source_fragment" : "ingress_port_meter"
@@ -465,7 +465,7 @@
       "name" : "ingress.host_meter_control.host_meter",
       "id" : 1,
       "source_info" : {
-        "filename" : "include/host_meter_table.p4",
+        "filename" : "./include/host_meter_table.p4",
         "line" : 27,
         "column" : 43,
         "source_fragment" : "host_meter"
@@ -481,7 +481,7 @@
       "name" : "egress.port_meters_egress.egress_port_meter",
       "id" : 2,
       "source_info" : {
-        "filename" : "include/port_meters.p4",
+        "filename" : "./include/port_meters.p4",
         "line" : 37,
         "column" : 32,
         "source_fragment" : "egress_port_meter"
@@ -497,7 +497,7 @@
       "name" : "ingress.port_counters_ingress.ingress_port_counter",
       "id" : 0,
       "source_info" : {
-        "filename" : "include/port_counters.p4",
+        "filename" : "./include/port_counters.p4",
         "line" : 26,
         "column" : 38,
         "source_fragment" : "ingress_port_counter"
@@ -521,7 +521,7 @@
       "name" : "egress.port_counters_egress.egress_port_counter",
       "id" : 3,
       "source_info" : {
-        "filename" : "include/port_counters.p4",
+        "filename" : "./include/port_counters.p4",
         "line" : 36,
         "column" : 38,
         "source_fragment" : "egress_port_counter"
@@ -557,7 +557,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/actions.p4",
+            "filename" : "./include/actions.p4",
             "line" : 28,
             "column" : 36,
             "source_fragment" : "port; ..."
@@ -588,7 +588,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/actions.p4",
+            "filename" : "./include/actions.p4",
             "line" : 28,
             "column" : 36,
             "source_fragment" : "port; ..."
@@ -614,7 +614,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/defines.p4",
+            "filename" : "./include/defines.p4",
             "line" : 28,
             "column" : 24,
             "source_fragment" : "255; ..."
@@ -631,7 +631,7 @@
           "op" : "drop",
           "parameters" : [],
           "source_info" : {
-            "filename" : "include/actions.p4",
+            "filename" : "./include/actions.p4",
             "line" : 32,
             "column" : 4,
             "source_fragment" : "mark_to_drop()"
@@ -674,7 +674,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/table0.p4",
+            "filename" : "./include/table0.p4",
             "line" : 30,
             "column" : 8,
             "source_fragment" : "local_metadata.next_hop_id = next_hop_id"
@@ -697,7 +697,7 @@
           "op" : "drop",
           "parameters" : [],
           "source_info" : {
-            "filename" : "include/port_meters.p4",
+            "filename" : "./include/port_meters.p4",
             "line" : 29,
             "column" : 12,
             "source_fragment" : "mark_to_drop()"
@@ -734,7 +734,13 @@
                 }
               }
             }
-          ]
+          ],
+          "source_info" : {
+            "filename" : "./include/port_counters.p4",
+            "line" : 29,
+            "column" : 35,
+            "source_fragment" : "(bit<32>) standard_metadata.ingress_port"
+          }
         },
         {
           "op" : "count",
@@ -749,7 +755,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/port_counters.p4",
+            "filename" : "./include/port_counters.p4",
             "line" : 29,
             "column" : 8,
             "source_fragment" : "ingress_port_counter.count((bit<32>) standard_metadata.ingress_port)"
@@ -779,7 +785,13 @@
                 }
               }
             }
-          ]
+          ],
+          "source_info" : {
+            "filename" : "./include/port_meters.p4",
+            "line" : 27,
+            "column" : 55,
+            "source_fragment" : "(bit<32>)standard_metadata.ingress_port"
+          }
         },
         {
           "op" : "execute_meter",
@@ -798,7 +810,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/port_meters.p4",
+            "filename" : "./include/port_meters.p4",
             "line" : 27,
             "column" : 8,
             "source_fragment" : "ingress_port_meter.execute_meter<MeterColor_t>((bit<32>)standard_metadata.ingress_port, ingress_color)"
@@ -824,7 +836,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/packet_io.p4",
+            "filename" : "./include/packet_io.p4",
             "line" : 27,
             "column" : 12,
             "source_fragment" : "standard_metadata.egress_spec = hdr.packet_out.egress_port"
@@ -839,7 +851,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/packet_io.p4",
+            "filename" : "./include/packet_io.p4",
             "line" : 28,
             "column" : 12,
             "source_fragment" : "hdr.packet_out.setInvalid()"
@@ -935,7 +947,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/host_meter_table.p4",
+            "filename" : "./include/host_meter_table.p4",
             "line" : 46,
             "column" : 12,
             "source_fragment" : "host_meter_table.apply().hit && local_metadata.meter_tag == 2"
@@ -981,7 +993,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/host_meter_table.p4",
+            "filename" : "./include/host_meter_table.p4",
             "line" : 46,
             "column" : 12,
             "source_fragment" : "host_meter_table.apply().hit && local_metadata.meter_tag == 2"
@@ -998,7 +1010,7 @@
           "op" : "drop",
           "parameters" : [],
           "source_info" : {
-            "filename" : "include/host_meter_table.p4",
+            "filename" : "./include/host_meter_table.p4",
             "line" : 47,
             "column" : 12,
             "source_fragment" : "mark_to_drop()"
@@ -1015,7 +1027,7 @@
           "op" : "drop",
           "parameters" : [],
           "source_info" : {
-            "filename" : "include/port_meters.p4",
+            "filename" : "./include/port_meters.p4",
             "line" : 43,
             "column" : 12,
             "source_fragment" : "mark_to_drop()"
@@ -1052,7 +1064,13 @@
                 }
               }
             }
-          ]
+          ],
+          "source_info" : {
+            "filename" : "./include/port_counters.p4",
+            "line" : 39,
+            "column" : 34,
+            "source_fragment" : "(bit<32>) standard_metadata.egress_port"
+          }
         },
         {
           "op" : "count",
@@ -1067,7 +1085,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/port_counters.p4",
+            "filename" : "./include/port_counters.p4",
             "line" : 39,
             "column" : 8,
             "source_fragment" : "egress_port_counter.count((bit<32>) standard_metadata.egress_port)"
@@ -1097,7 +1115,13 @@
                 }
               }
             }
-          ]
+          ],
+          "source_info" : {
+            "filename" : "./include/port_meters.p4",
+            "line" : 41,
+            "column" : 54,
+            "source_fragment" : "(bit<32>)standard_metadata.egress_port"
+          }
         },
         {
           "op" : "execute_meter",
@@ -1116,7 +1140,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/port_meters.p4",
+            "filename" : "./include/port_meters.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "egress_port_meter.execute_meter<MeterColor_t>((bit<32>)standard_metadata.egress_port, egress_color)"
@@ -1138,7 +1162,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/packet_io.p4",
+            "filename" : "./include/packet_io.p4",
             "line" : 38,
             "column" : 12,
             "source_fragment" : "hdr.packet_in.setValid()"
@@ -1157,7 +1181,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "include/packet_io.p4",
+            "filename" : "./include/packet_io.p4",
             "line" : 39,
             "column" : 12,
             "source_fragment" : "hdr.packet_in.ingress_port = standard_metadata.ingress_port"
@@ -1251,7 +1275,7 @@
           "name" : "ingress.table0_control.table0",
           "id" : 3,
           "source_info" : {
-            "filename" : "include/table0.p4",
+            "filename" : "./include/table0.p4",
             "line" : 33,
             "column" : 10,
             "source_fragment" : "table0"
@@ -1338,7 +1362,7 @@
           "name" : "ingress.host_meter_control.host_meter_table",
           "id" : 4,
           "source_info" : {
-            "filename" : "include/host_meter_table.p4",
+            "filename" : "./include/host_meter_table.p4",
             "line" : 33,
             "column" : 10,
             "source_fragment" : "host_meter_table"
@@ -1490,7 +1514,7 @@
           "name" : "ingress.wcmp_control.wcmp_table",
           "id" : 10,
           "source_info" : {
-            "filename" : "include/wcmp.p4",
+            "filename" : "./include/wcmp.p4",
             "line" : 30,
             "column" : 10,
             "source_fragment" : "wcmp_table"
@@ -1556,7 +1580,7 @@
           "name" : "node_3",
           "id" : 0,
           "source_info" : {
-            "filename" : "include/port_meters.p4",
+            "filename" : "./include/port_meters.p4",
             "line" : 28,
             "column" : 12,
             "source_fragment" : "ingress_color == MeterColor_t.RED"
@@ -1582,7 +1606,7 @@
           "name" : "node_5",
           "id" : 1,
           "source_info" : {
-            "filename" : "include/packet_io.p4",
+            "filename" : "./include/packet_io.p4",
             "line" : 26,
             "column" : 12,
             "source_fragment" : "standard_metadata.ingress_port == CPU_PORT"
@@ -1649,7 +1673,7 @@
           "name" : "node_16",
           "id" : 4,
           "source_info" : {
-            "filename" : "include/wcmp.p4",
+            "filename" : "./include/wcmp.p4",
             "line" : 48,
             "column" : 12,
             "source_fragment" : "local_metadata.next_hop_id != 0"
@@ -1760,7 +1784,7 @@
           "name" : "node_21",
           "id" : 5,
           "source_info" : {
-            "filename" : "include/port_meters.p4",
+            "filename" : "./include/port_meters.p4",
             "line" : 42,
             "column" : 12,
             "source_fragment" : "egress_color == MeterColor_t.RED"
@@ -1786,7 +1810,7 @@
           "name" : "node_23",
           "id" : 6,
           "source_info" : {
-            "filename" : "include/packet_io.p4",
+            "filename" : "./include/packet_io.p4",
             "line" : 37,
             "column" : 12,
             "source_fragment" : "standard_metadata.egress_port == CPU_PORT"
