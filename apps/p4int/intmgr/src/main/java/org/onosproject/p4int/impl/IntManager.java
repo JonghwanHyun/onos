@@ -87,7 +87,8 @@ public class IntManager implements IntService {
 
         KryoNamespace.Builder serializer = KryoNamespace.newBuilder()
                 .register(KryoNamespaces.API)
-                .register(IntIntent.class);
+                .register(IntIntent.class)
+                .register(IntDeviceRole.class);
 
         intentConsistentMap = storageService.<Integer, IntIntent>consistentMapBuilder()
                 .withSerializer(Serializer.using(serializer.build()))
@@ -112,6 +113,7 @@ public class IntManager implements IntService {
         );
         hostService.addListener(hostListener);
         intentIds = storageService.getAtomicIdGenerator("int-intent-id-generator");
+        startInt();
         log.info("Started", appId.id());
     }
 

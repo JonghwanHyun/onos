@@ -169,7 +169,7 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
             // process_int_transit.tb_int_insert
             PiActionParam transitIdParam = new PiActionParam(
                     IntConstants.ACT_PRM_SWITCH_ID,
-                    ImmutableByteSequence.copyFrom(deviceId.toString().getBytes()));
+                    ImmutableByteSequence.copyFrom(deviceId.hashCode()));
             PiAction transitAction = PiAction.builder()
                     .withId(IntConstants.ACT_INT_TRANSIT_ID)
                     .withParameter(transitIdParam)
