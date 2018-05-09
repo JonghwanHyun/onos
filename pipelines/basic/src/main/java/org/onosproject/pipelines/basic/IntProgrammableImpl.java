@@ -207,7 +207,7 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
     }
 
     @Override
-    public void addWatchlistEntry(IntObjective intent) {
+    public void addWatchlistEntry(IntObjective obj) {
         // TODO: support different types of watchlist other than flow watchlist
 
         //process_int_source.tb_int_source

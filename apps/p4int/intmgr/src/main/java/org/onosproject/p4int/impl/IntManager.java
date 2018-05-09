@@ -176,8 +176,8 @@ public class IntManager implements IntService {
         Integer intentId = (int) intentIds.nextId();
 
         intentConsistentMap.put(intentId, intent);
-        // Convert IntIntent into a set of flow rules
-        // Install flow rules on each INT-capable device
+        // Convert IntIntent into an IntObjective
+        // Install IntObjective on each INT-capable device
 
 //        deviceService.getAvailableDevices().forEach(device -> {
 //            if (device.is(IntProgrammable.class)
