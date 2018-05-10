@@ -30,6 +30,7 @@
     <description>ONOS sample applications</description>
 
     <modules>
+	<module>p4int</module>
         <module>acl</module>
         <module>roadm</module>
         <module>faultmanagement</module>

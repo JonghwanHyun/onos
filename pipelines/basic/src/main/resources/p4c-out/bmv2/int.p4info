@@ -71,9 +71,8 @@ tables {
     id: 16784184
   }
   const_default_action_id: 16784184
-  direct_resource_ids: 318816189
+  direct_resource_ids: 302038973
   size: 1024
-  idle_timeout_behavior: NO_TIMEOUT
 }
 tables {
   preamble {
@@ -95,7 +94,6 @@ tables {
     annotations: "@defaultonly()"
   }
   size: 256
-  idle_timeout_behavior: NO_TIMEOUT
 }
 tables {
   preamble {
@@ -117,7 +115,6 @@ tables {
     annotations: "@defaultonly()"
   }
   size: 256
-  idle_timeout_behavior: NO_TIMEOUT
 }
 tables {
   preamble {
@@ -156,9 +153,8 @@ tables {
     id: 16800567
     annotations: "@defaultonly()"
   }
-  direct_resource_ids: 318796349
+  direct_resource_ids: 302019133
   size: 1024
-  idle_timeout_behavior: NO_TIMEOUT
 }
 tables {
   preamble {
@@ -173,9 +169,8 @@ tables {
     id: 16800567
     annotations: "@defaultonly()"
   }
-  direct_resource_ids: 318803385
+  direct_resource_ids: 302026169
   size: 2
-  idle_timeout_behavior: NO_TIMEOUT
 }
 tables {
   preamble {
@@ -241,9 +236,8 @@ tables {
     id: 16800567
     annotations: "@defaultonly()"
   }
-  direct_resource_ids: 318805102
+  direct_resource_ids: 302027886
   size: 16
-  idle_timeout_behavior: NO_TIMEOUT
 }
 tables {
   preamble {
@@ -309,9 +303,8 @@ tables {
     id: 16800567
     annotations: "@defaultonly()"
   }
-  direct_resource_ids: 318775631
+  direct_resource_ids: 301998415
   size: 16
-  idle_timeout_behavior: NO_TIMEOUT
 }
 actions {
   preamble {
@@ -701,7 +694,7 @@ counters {
 }
 direct_counters {
   preamble {
-    id: 318816189
+    id: 302038973
     name: "ingress.table0_control.table0_counter"
     alias: "table0_counter"
   }
@@ -712,7 +705,7 @@ direct_counters {
 }
 direct_counters {
   preamble {
-    id: 318796349
+    id: 302019133
     name: "egress.process_int_source.counter_int_source"
     alias: "counter_int_source"
   }
@@ -723,7 +716,7 @@ direct_counters {
 }
 direct_counters {
   preamble {
-    id: 318803385
+    id: 302026169
     name: "egress.process_int_transit.counter_int_insert"
     alias: "counter_int_insert"
   }
@@ -734,7 +727,7 @@ direct_counters {
 }
 direct_counters {
   preamble {
-    id: 318805102
+    id: 302027886
     name: "egress.process_int_transit.counter_int_inst_0003"
     alias: "counter_int_inst_0003"
   }
@@ -745,7 +738,7 @@ direct_counters {
 }
 direct_counters {
   preamble {
-    id: 318775631
+    id: 301998415
     name: "egress.process_int_transit.counter_int_inst_0407"
     alias: "counter_int_inst_0407"
   }
@@ -756,7 +749,7 @@ direct_counters {
 }
 controller_packet_metadata {
   preamble {
-    id: 67146229
+    id: 2868941301
     name: "packet_in"
     annotations: "@controller_header(\"packet_in\")"
   }
@@ -768,7 +761,7 @@ controller_packet_metadata {
 }
 controller_packet_metadata {
   preamble {
-    id: 67121543
+    id: 2868916615
     name: "packet_out"
     annotations: "@controller_header(\"packet_out\")"
   }
@@ -777,6 +770,4 @@ controller_packet_metadata {
     name: "egress_port"
     bitwidth: 9
   }
-}
-type_info {
 }

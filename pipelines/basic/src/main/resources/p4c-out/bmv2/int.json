@@ -1,7 +1,7 @@
 {
   "program" : "int.p4",
   "__meta__" : {
-    "version" : [2, 18],
+    "version" : [2, 7],
     "compiler" : "https://github.com/p4lang/p4c"
   },
   "header_types" : [
@@ -394,12 +394,12 @@
   "header_union_stacks" : [],
   "field_lists" : [],
   "errors" : [
-    ["NoError", 0],
-    ["PacketTooShort", 1],
-    ["NoMatch", 2],
-    ["StackOutOfBounds", 3],
-    ["HeaderTooShort", 4],
-    ["ParserTimeout", 5]
+    ["NoError", 1],
+    ["PacketTooShort", 2],
+    ["NoMatch", 3],
+    ["StackOutOfBounds", 4],
+    ["HeaderTooShort", 5],
+    ["ParserTimeout", 6]
   ],
   "enums" : [],
   "parsers" : [
@@ -956,7 +956,7 @@
       "name" : "deparser",
       "id" : 0,
       "source_info" : {
-        "filename" : "./include/int_parser.p4",
+        "filename" : "include/int_parser.p4",
         "line" : 104,
         "column" : 8,
         "source_fragment" : "int_deparser"
@@ -970,7 +970,7 @@
       "name" : "ingress.port_counters_ingress.ingress_port_counter",
       "id" : 0,
       "source_info" : {
-        "filename" : "./include/port_counters.p4",
+        "filename" : "include/port_counters.p4",
         "line" : 26,
         "column" : 38,
         "source_fragment" : "ingress_port_counter"
@@ -1012,7 +1012,7 @@
       "name" : "egress.port_counters_egress.egress_port_counter",
       "id" : 6,
       "source_info" : {
-        "filename" : "./include/port_counters.p4",
+        "filename" : "include/port_counters.p4",
         "line" : 36,
         "column" : 38,
         "source_fragment" : "egress_port_counter"
@@ -1048,7 +1048,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/actions.p4",
+            "filename" : "include/actions.p4",
             "line" : 28,
             "column" : 36,
             "source_fragment" : "port; ..."
@@ -1074,7 +1074,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/defines.p4",
+            "filename" : "include/defines.p4",
             "line" : 28,
             "column" : 24,
             "source_fragment" : "255; ..."
@@ -1091,7 +1091,7 @@
           "op" : "drop",
           "parameters" : [],
           "source_info" : {
-            "filename" : "./include/actions.p4",
+            "filename" : "include/actions.p4",
             "line" : 32,
             "column" : 4,
             "source_fragment" : "mark_to_drop()"
@@ -1122,7 +1122,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/table0.p4",
+            "filename" : "include/table0.p4",
             "line" : 30,
             "column" : 8,
             "source_fragment" : "local_metadata.next_hop_id = next_hop_id"
@@ -1148,7 +1148,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/packet_io.p4",
+            "filename" : "include/packet_io.p4",
             "line" : 27,
             "column" : 12,
             "source_fragment" : "standard_metadata.egress_spec = hdr.packet_out.egress_port"
@@ -1163,7 +1163,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/packet_io.p4",
+            "filename" : "include/packet_io.p4",
             "line" : 28,
             "column" : 12,
             "source_fragment" : "hdr.packet_out.setInvalid()"
@@ -1200,13 +1200,7 @@
                 }
               }
             }
-          ],
-          "source_info" : {
-            "filename" : "./include/port_counters.p4",
-            "line" : 29,
-            "column" : 35,
-            "source_fragment" : "(bit<32>) standard_metadata.ingress_port"
-          }
+          ]
         },
         {
           "op" : "count",
@@ -1221,7 +1215,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/port_counters.p4",
+            "filename" : "include/port_counters.p4",
             "line" : 29,
             "column" : 8,
             "source_fragment" : "ingress_port_counter.count((bit<32>) standard_metadata.ingress_port)"
@@ -1283,7 +1277,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 91,
             "column" : 8,
             "source_fragment" : "local_metadata.int_meta.source = 1"
@@ -1309,7 +1303,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 95,
             "column" : 8,
             "source_fragment" : "local_metadata.int_meta.sink = 1"
@@ -1348,7 +1342,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 31,
             "column" : 8,
             "source_fragment" : "hdr.intl4_shim.setValid()"
@@ -1367,7 +1361,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 33,
             "column" : 8,
             "source_fragment" : "hdr.intl4_shim.int_type = 1"
@@ -1386,7 +1380,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_definitions.p4",
+            "filename" : "include/int_definitions.p4",
             "line" : 29,
             "column" : 35,
             "source_fragment" : "4; ..."
@@ -1401,7 +1395,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 37,
             "column" : 8,
             "source_fragment" : "hdr.int_header.setValid()"
@@ -1420,7 +1414,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 38,
             "column" : 8,
             "source_fragment" : "hdr.int_header.ver = 0"
@@ -1439,7 +1433,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 39,
             "column" : 8,
             "source_fragment" : "hdr.int_header.rep = 0"
@@ -1458,7 +1452,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 40,
             "column" : 8,
             "source_fragment" : "hdr.int_header.c = 0"
@@ -1477,7 +1471,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "hdr.int_header.e = 0"
@@ -1496,7 +1490,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 42,
             "column" : 8,
             "source_fragment" : "hdr.int_header.rsvd1 = 0"
@@ -1515,7 +1509,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 43,
             "column" : 8,
             "source_fragment" : "hdr.int_header.ins_cnt = ins_cnt; ..."
@@ -1534,7 +1528,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 44,
             "column" : 8,
             "source_fragment" : "hdr.int_header.max_hop_cnt = max_hop; ..."
@@ -1553,7 +1547,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 45,
             "column" : 8,
             "source_fragment" : "hdr.int_header.total_hop_cnt = 0"
@@ -1572,7 +1566,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 46,
             "column" : 8,
             "source_fragment" : "hdr.int_header.instruction_mask_0003 = ins_mask0003; ..."
@@ -1591,7 +1585,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 47,
             "column" : 8,
             "source_fragment" : "hdr.int_header.instruction_mask_0407 = ins_mask0407; ..."
@@ -1610,7 +1604,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 48,
             "column" : 8,
             "source_fragment" : "hdr.int_header.instruction_mask_0811 = 0"
@@ -1629,7 +1623,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 49,
             "column" : 8,
             "source_fragment" : "hdr.int_header.instruction_mask_1215 = 0"
@@ -1644,7 +1638,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 52,
             "column" : 8,
             "source_fragment" : "hdr.intl4_tail.setValid()"
@@ -1663,7 +1657,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 53,
             "column" : 8,
             "source_fragment" : "hdr.intl4_tail.next_proto = hdr.ipv4.protocol"
@@ -1682,7 +1676,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 54,
             "column" : 8,
             "source_fragment" : "hdr.intl4_tail.dest_port = local_metadata.l4_dst_port"
@@ -1714,7 +1708,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 55,
             "column" : 8,
             "source_fragment" : "hdr.intl4_tail.dscp = (bit<8>) hdr.ipv4.dscp"
@@ -1756,7 +1750,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 58,
             "column" : 8,
             "source_fragment" : "hdr.ipv4.len = hdr.ipv4.len + 16"
@@ -1798,7 +1792,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 59,
             "column" : 8,
             "source_fragment" : "hdr.udp.length_ = hdr.udp.length_ + 16"
@@ -1817,7 +1811,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_definitions.p4",
+            "filename" : "include/int_definitions.p4",
             "line" : 24,
             "column" : 24,
             "source_fragment" : "0x1; ..."
@@ -1866,7 +1860,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 30,
             "column" : 8,
             "source_fragment" : "hdr.int_header.total_hop_cnt = hdr.int_header.total_hop_cnt + 1"
@@ -1897,7 +1891,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 34,
             "column" : 8,
             "source_fragment" : "local_metadata.int_meta.switch_id = switch_id"
@@ -1949,7 +1943,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 35,
             "column" : 8,
             "source_fragment" : "local_metadata.int_meta.insert_byte_cnt = (bit<16>) hdr.int_header.ins_cnt << 2"
@@ -1977,7 +1971,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 57,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.setValid()"
@@ -1996,7 +1990,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 58,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_id = ..."
@@ -2028,7 +2022,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 61,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_occupancy = ..."
@@ -2050,7 +2044,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 51,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.setValid()"
@@ -2069,7 +2063,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 52,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.hop_latency = ..."
@@ -2091,7 +2085,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 57,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.setValid()"
@@ -2110,7 +2104,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 58,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_id = ..."
@@ -2142,7 +2136,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 61,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_occupancy = ..."
@@ -2157,7 +2151,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 51,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.setValid()"
@@ -2176,7 +2170,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 52,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.hop_latency = ..."
@@ -2198,7 +2192,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 44,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.setValid()"
@@ -2230,7 +2224,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 45,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.ingress_port_id = ..."
@@ -2262,7 +2256,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 47,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.egress_port_id = ..."
@@ -2284,7 +2278,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 57,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.setValid()"
@@ -2303,7 +2297,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 58,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_id = ..."
@@ -2335,7 +2329,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 61,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_occupancy = ..."
@@ -2350,7 +2344,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 44,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.setValid()"
@@ -2382,7 +2376,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 45,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.ingress_port_id = ..."
@@ -2414,7 +2408,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 47,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.egress_port_id = ..."
@@ -2436,7 +2430,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 51,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.setValid()"
@@ -2455,7 +2449,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 52,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.hop_latency = ..."
@@ -2470,7 +2464,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 44,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.setValid()"
@@ -2502,7 +2496,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 45,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.ingress_port_id = ..."
@@ -2534,7 +2528,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 47,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.egress_port_id = ..."
@@ -2556,7 +2550,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 57,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.setValid()"
@@ -2575,7 +2569,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 58,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_id = ..."
@@ -2607,7 +2601,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 61,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_occupancy = ..."
@@ -2622,7 +2616,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 51,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.setValid()"
@@ -2641,7 +2635,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 52,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.hop_latency = ..."
@@ -2656,7 +2650,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 44,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.setValid()"
@@ -2688,7 +2682,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 45,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.ingress_port_id = ..."
@@ -2720,7 +2714,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 47,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.egress_port_id = ..."
@@ -2742,7 +2736,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 40,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.setValid()"
@@ -2761,7 +2755,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.switch_id = local_metadata.int_meta.switch_id"
@@ -2783,7 +2777,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 57,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.setValid()"
@@ -2802,7 +2796,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 58,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_id = ..."
@@ -2834,7 +2828,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 61,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_occupancy = ..."
@@ -2849,7 +2843,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 40,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.setValid()"
@@ -2868,7 +2862,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.switch_id = local_metadata.int_meta.switch_id"
@@ -2890,7 +2884,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 51,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.setValid()"
@@ -2909,7 +2903,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 52,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.hop_latency = ..."
@@ -2924,7 +2918,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 40,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.setValid()"
@@ -2943,7 +2937,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.switch_id = local_metadata.int_meta.switch_id"
@@ -2965,7 +2959,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 57,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.setValid()"
@@ -2984,7 +2978,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 58,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_id = ..."
@@ -3016,7 +3010,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 61,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_occupancy = ..."
@@ -3031,7 +3025,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 51,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.setValid()"
@@ -3050,7 +3044,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 52,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.hop_latency = ..."
@@ -3065,7 +3059,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 40,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.setValid()"
@@ -3084,7 +3078,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.switch_id = local_metadata.int_meta.switch_id"
@@ -3106,7 +3100,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 44,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.setValid()"
@@ -3138,7 +3132,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 45,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.ingress_port_id = ..."
@@ -3170,7 +3164,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 47,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.egress_port_id = ..."
@@ -3185,7 +3179,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 40,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.setValid()"
@@ -3204,7 +3198,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.switch_id = local_metadata.int_meta.switch_id"
@@ -3226,7 +3220,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 57,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.setValid()"
@@ -3245,7 +3239,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 58,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_id = ..."
@@ -3277,7 +3271,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 61,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_occupancy = ..."
@@ -3292,7 +3286,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 44,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.setValid()"
@@ -3324,7 +3318,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 45,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.ingress_port_id = ..."
@@ -3356,7 +3350,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 47,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.egress_port_id = ..."
@@ -3371,7 +3365,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 40,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.setValid()"
@@ -3390,7 +3384,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.switch_id = local_metadata.int_meta.switch_id"
@@ -3412,7 +3406,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 51,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.setValid()"
@@ -3431,7 +3425,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 52,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.hop_latency = ..."
@@ -3446,7 +3440,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 44,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.setValid()"
@@ -3478,7 +3472,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 45,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.ingress_port_id = ..."
@@ -3510,7 +3504,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 47,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.egress_port_id = ..."
@@ -3525,7 +3519,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 40,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.setValid()"
@@ -3544,7 +3538,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.switch_id = local_metadata.int_meta.switch_id"
@@ -3566,7 +3560,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 57,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.setValid()"
@@ -3585,7 +3579,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 58,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_id = ..."
@@ -3617,7 +3611,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 61,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.q_occupancy = ..."
@@ -3632,7 +3626,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 51,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.setValid()"
@@ -3651,7 +3645,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 52,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.hop_latency = ..."
@@ -3666,7 +3660,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 44,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.setValid()"
@@ -3698,7 +3692,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 45,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.ingress_port_id = ..."
@@ -3730,7 +3724,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 47,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.egress_port_id = ..."
@@ -3745,7 +3739,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 40,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.setValid()"
@@ -3764,7 +3758,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.switch_id = local_metadata.int_meta.switch_id"
@@ -3792,7 +3786,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 88,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.setValid()"
@@ -3811,7 +3805,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 89,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.egress_port_tx_util = ..."
@@ -3833,7 +3827,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 78,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.setValid()"
@@ -3852,7 +3846,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 79,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_id = ..."
@@ -3871,7 +3865,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 82,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_congestion = ..."
@@ -3893,7 +3887,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 88,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.setValid()"
@@ -3912,7 +3906,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 89,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.egress_port_tx_util = ..."
@@ -3927,7 +3921,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 78,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.setValid()"
@@ -3946,7 +3940,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 79,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_id = ..."
@@ -3965,7 +3959,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 82,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_congestion = ..."
@@ -3987,7 +3981,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 70,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.setValid()"
@@ -4029,7 +4023,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 71,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.egress_tstamp = ..."
@@ -4051,7 +4045,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 88,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.setValid()"
@@ -4070,7 +4064,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 89,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.egress_port_tx_util = ..."
@@ -4085,7 +4079,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 70,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.setValid()"
@@ -4127,7 +4121,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 71,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.egress_tstamp = ..."
@@ -4149,7 +4143,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 78,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.setValid()"
@@ -4168,7 +4162,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 79,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_id = ..."
@@ -4187,7 +4181,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 82,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_congestion = ..."
@@ -4202,7 +4196,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 70,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.setValid()"
@@ -4244,7 +4238,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 71,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.egress_tstamp = ..."
@@ -4266,7 +4260,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 88,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.setValid()"
@@ -4285,7 +4279,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 89,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.egress_port_tx_util = ..."
@@ -4300,7 +4294,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 78,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.setValid()"
@@ -4319,7 +4313,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 79,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_id = ..."
@@ -4338,7 +4332,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 82,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_congestion = ..."
@@ -4353,7 +4347,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 70,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.setValid()"
@@ -4395,7 +4389,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 71,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.egress_tstamp = ..."
@@ -4417,7 +4411,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 65,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.setValid()"
@@ -4436,7 +4430,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 66,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.ingress_tstamp = ..."
@@ -4458,7 +4452,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 88,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.setValid()"
@@ -4477,7 +4471,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 89,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.egress_port_tx_util = ..."
@@ -4492,7 +4486,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 65,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.setValid()"
@@ -4511,7 +4505,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 66,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.ingress_tstamp = ..."
@@ -4533,7 +4527,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 78,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.setValid()"
@@ -4552,7 +4546,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 79,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_id = ..."
@@ -4571,7 +4565,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 82,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_congestion = ..."
@@ -4586,7 +4580,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 65,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.setValid()"
@@ -4605,7 +4599,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 66,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.ingress_tstamp = ..."
@@ -4627,7 +4621,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 88,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.setValid()"
@@ -4646,7 +4640,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 89,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.egress_port_tx_util = ..."
@@ -4661,7 +4655,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 78,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.setValid()"
@@ -4680,7 +4674,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 79,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_id = ..."
@@ -4699,7 +4693,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 82,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_congestion = ..."
@@ -4714,7 +4708,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 65,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.setValid()"
@@ -4733,7 +4727,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 66,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.ingress_tstamp = ..."
@@ -4755,7 +4749,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 70,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.setValid()"
@@ -4797,7 +4791,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 71,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.egress_tstamp = ..."
@@ -4812,7 +4806,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 65,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.setValid()"
@@ -4831,7 +4825,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 66,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.ingress_tstamp = ..."
@@ -4853,7 +4847,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 88,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.setValid()"
@@ -4872,7 +4866,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 89,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.egress_port_tx_util = ..."
@@ -4887,7 +4881,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 70,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.setValid()"
@@ -4929,7 +4923,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 71,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.egress_tstamp = ..."
@@ -4944,7 +4938,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 65,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.setValid()"
@@ -4963,7 +4957,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 66,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.ingress_tstamp = ..."
@@ -4985,7 +4979,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 78,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.setValid()"
@@ -5004,7 +4998,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 79,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_id = ..."
@@ -5023,7 +5017,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 82,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_congestion = ..."
@@ -5038,7 +5032,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 70,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.setValid()"
@@ -5080,7 +5074,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 71,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.egress_tstamp = ..."
@@ -5095,7 +5089,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 65,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.setValid()"
@@ -5114,7 +5108,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 66,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.ingress_tstamp = ..."
@@ -5136,7 +5130,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 88,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.setValid()"
@@ -5155,7 +5149,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 89,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.egress_port_tx_util = ..."
@@ -5170,7 +5164,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 78,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.setValid()"
@@ -5189,7 +5183,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 79,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_id = ..."
@@ -5208,7 +5202,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 82,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.q_congestion = ..."
@@ -5223,7 +5217,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 70,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.setValid()"
@@ -5265,7 +5259,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 71,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.egress_tstamp = ..."
@@ -5280,7 +5274,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 65,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.setValid()"
@@ -5299,7 +5293,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 66,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.ingress_tstamp = ..."
@@ -5348,7 +5342,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 304,
             "column" : 8,
             "source_fragment" : "hdr.ipv4.len = hdr.ipv4.len + local_metadata.int_meta.insert_byte_cnt"
@@ -5397,7 +5391,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 307,
             "column" : 8,
             "source_fragment" : "hdr.udp.length_ = hdr.udp.length_ + local_metadata.int_meta.insert_byte_cnt"
@@ -5456,7 +5450,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 310,
             "column" : 8,
             "source_fragment" : "hdr.intl4_shim.len = hdr.intl4_shim.len + (bit<8>)hdr.int_header.ins_cnt"
@@ -5482,7 +5476,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 27,
             "column" : 8,
             "source_fragment" : "hdr.udp.dst_port = hdr.intl4_tail.dest_port"
@@ -5514,7 +5508,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 28,
             "column" : 8,
             "source_fragment" : "hdr.ipv4.dscp = (bit<6>)hdr.intl4_tail.dscp"
@@ -5623,7 +5617,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 33,
             "column" : 8,
             "source_fragment" : "hdr.ipv4.len = hdr.ipv4.len - (bit<16>)((hdr.intl4_shim.len - (bit<8>)hdr.int_header.ins_cnt) << 2)"
@@ -5725,7 +5719,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 34,
             "column" : 8,
             "source_fragment" : "hdr.udp.length_ = hdr.udp.length_ - (bit<16>)((hdr.intl4_shim.len - (bit<8>)hdr.int_header.ins_cnt) << 2)"
@@ -5740,7 +5734,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 36,
             "column" : 8,
             "source_fragment" : "hdr.int_header.setInvalid()"
@@ -5755,7 +5749,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 37,
             "column" : 8,
             "source_fragment" : "hdr.int_data.setInvalid()"
@@ -5770,7 +5764,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 38,
             "column" : 8,
             "source_fragment" : "hdr.intl4_shim.setInvalid()"
@@ -5785,7 +5779,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 39,
             "column" : 8,
             "source_fragment" : "hdr.intl4_tail.setInvalid()"
@@ -5800,7 +5794,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 40,
             "column" : 8,
             "source_fragment" : "hdr.int_switch_id.setInvalid()"
@@ -5815,7 +5809,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 41,
             "column" : 8,
             "source_fragment" : "hdr.int_port_ids.setInvalid()"
@@ -5830,7 +5824,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 42,
             "column" : 8,
             "source_fragment" : "hdr.int_hop_latency.setInvalid()"
@@ -5845,7 +5839,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 43,
             "column" : 8,
             "source_fragment" : "hdr.int_q_occupancy.setInvalid()"
@@ -5860,7 +5854,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 44,
             "column" : 8,
             "source_fragment" : "hdr.int_ingress_tstamp.setInvalid()"
@@ -5875,7 +5869,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 45,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tstamp.setInvalid()"
@@ -5890,7 +5884,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 46,
             "column" : 8,
             "source_fragment" : "hdr.int_q_congestion.setInvalid()"
@@ -5905,7 +5899,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/int_sink.p4",
+            "filename" : "include/int_sink.p4",
             "line" : 47,
             "column" : 8,
             "source_fragment" : "hdr.int_egress_tx_util.setInvalid()"
@@ -5927,7 +5921,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/packet_io.p4",
+            "filename" : "include/packet_io.p4",
             "line" : 38,
             "column" : 12,
             "source_fragment" : "hdr.packet_in.setValid()"
@@ -5946,7 +5940,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/packet_io.p4",
+            "filename" : "include/packet_io.p4",
             "line" : 39,
             "column" : 12,
             "source_fragment" : "hdr.packet_in.ingress_port = standard_metadata.ingress_port"
@@ -5983,13 +5977,7 @@
                 }
               }
             }
-          ],
-          "source_info" : {
-            "filename" : "./include/port_counters.p4",
-            "line" : 39,
-            "column" : 34,
-            "source_fragment" : "(bit<32>) standard_metadata.egress_port"
-          }
+          ]
         },
         {
           "op" : "count",
@@ -6004,7 +5992,7 @@
             }
           ],
           "source_info" : {
-            "filename" : "./include/port_counters.p4",
+            "filename" : "include/port_counters.p4",
             "line" : 39,
             "column" : 8,
             "source_fragment" : "egress_port_counter.count((bit<32>) standard_metadata.egress_port)"
@@ -6075,7 +6063,7 @@
           "name" : "ingress.table0_control.table0",
           "id" : 2,
           "source_info" : {
-            "filename" : "./include/table0.p4",
+            "filename" : "include/table0.p4",
             "line" : 33,
             "column" : 10,
             "source_fragment" : "table0"
@@ -6165,7 +6153,7 @@
           "name" : "node_3",
           "id" : 0,
           "source_info" : {
-            "filename" : "./include/packet_io.p4",
+            "filename" : "include/packet_io.p4",
             "line" : 26,
             "column" : 12,
             "source_fragment" : "standard_metadata.ingress_port == CPU_PORT"
@@ -6204,7 +6192,7 @@
           "name" : "egress.process_set_source_sink.tb_set_source",
           "id" : 3,
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 98,
             "column" : 10,
             "source_fragment" : "tb_set_source"
@@ -6241,7 +6229,7 @@
           "name" : "egress.process_set_source_sink.tb_set_sink",
           "id" : 4,
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 107,
             "column" : 10,
             "source_fragment" : "tb_set_sink"
@@ -6278,7 +6266,7 @@
           "name" : "egress.process_int_source.tb_int_source",
           "id" : 5,
           "source_info" : {
-            "filename" : "./include/int_source.p4",
+            "filename" : "include/int_source.p4",
             "line" : 66,
             "column" : 10,
             "source_fragment" : "tb_int_source"
@@ -6333,7 +6321,7 @@
           "name" : "egress.process_int_transit.tb_int_insert",
           "id" : 6,
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 227,
             "column" : 10,
             "source_fragment" : "tb_int_insert"
@@ -6363,7 +6351,7 @@
           "name" : "egress.process_int_transit.tb_int_inst_0003",
           "id" : 7,
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 237,
             "column" : 10,
             "source_fragment" : "tb_int_inst_0003"
@@ -6415,7 +6403,7 @@
           "name" : "egress.process_int_transit.tb_int_inst_0407",
           "id" : 8,
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 264,
             "column" : 10,
             "source_fragment" : "tb_int_inst_0407"
@@ -6783,7 +6771,7 @@
           "name" : "node_18",
           "id" : 4,
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 314,
             "column" : 12,
             "source_fragment" : "hdr.ipv4.isValid()"
@@ -6806,7 +6794,7 @@
           "name" : "node_20",
           "id" : 5,
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 317,
             "column" : 12,
             "source_fragment" : "hdr.udp.isValid()"
@@ -6829,7 +6817,7 @@
           "name" : "node_22",
           "id" : 6,
           "source_info" : {
-            "filename" : "./include/int_transit.p4",
+            "filename" : "include/int_transit.p4",
             "line" : 320,
             "column" : 12,
             "source_fragment" : "hdr.intl4_shim.isValid()"
@@ -6878,7 +6866,7 @@
           "name" : "node_28",
           "id" : 8,
           "source_info" : {
-            "filename" : "./include/packet_io.p4",
+            "filename" : "include/packet_io.p4",
             "line" : 37,
             "column" : 12,
             "source_fragment" : "standard_metadata.egress_port == CPU_PORT"
