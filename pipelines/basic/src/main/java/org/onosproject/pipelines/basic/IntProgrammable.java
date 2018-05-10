@@ -40,13 +40,13 @@ public interface IntProgrammable extends HandlerBehaviour {
      */
     void addWatchlistEntry(IntObjective obj);
 
-//    /**
-//     * Removes a given watchlist entry from the device.
-//     *
-//     * @param flow a watchlist entry to remove
-//     */
-//    void removeWatchlistEntry(IntFlow flow);
-//
+    /**
+     * Removes a given watchlist entry from the device.
+     *
+     * @param obj an objective
+     */
+    void removeWatchlistEntry(IntObjective obj);
+
 //    /**
 //     * Installs a given flow entry to the INT source device.
 //     *

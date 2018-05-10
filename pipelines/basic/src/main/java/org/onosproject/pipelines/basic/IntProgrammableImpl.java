@@ -18,8 +18,6 @@ package org.onosproject.pipelines.basic;
 import com.google.common.collect.ImmutableBiMap;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
-import org.onlab.packet.IpAddress;
-import org.onlab.packet.MacAddress;
 import org.onlab.util.ImmutableByteSequence;
 import org.onosproject.core.ApplicationId;
 import org.onosproject.net.ConnectPoint;
@@ -35,7 +33,10 @@ import org.onosproject.net.flow.FlowRule;
 import org.onosproject.net.flow.FlowRuleService;
 import org.onosproject.net.flow.TrafficSelector;
 import org.onosproject.net.flow.TrafficTreatment;
+import org.onosproject.net.flow.criteria.Criterion;
+import org.onosproject.net.flow.criteria.IPCriterion;
 import org.onosproject.net.flow.criteria.PiCriterion;
+import org.onosproject.net.flow.criteria.PortCriterion;
 import org.onosproject.net.host.HostService;
 import org.onosproject.net.pi.model.PiActionId;
 import org.onosproject.net.pi.model.PiMatchFieldId;
@@ -53,6 +54,9 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class IntProgrammableImpl extends AbstractHandlerBehaviour implements IntProgrammable {
 
+    // TODO: change this value to the value of diameter of a network.
+    private final int MAX_HOP = 64;
+    private final int PORT_MASK = 0xffff;
     private final Logger log = getLogger(getClass());
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
@@ -117,6 +121,30 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
         ).map(Port::number).collect(Collectors.toSet());
         List<FlowRule> flowRules = new ArrayList<>();
 
+        // process_int_transit.tb_int_insert
+        PiActionParam transitIdParam = new PiActionParam(
+                IntConstants.ACT_PRM_SWITCH_ID,
+                ImmutableByteSequence.copyFrom(
+                        Integer.parseInt(deviceId.toString().substring(
+                                deviceId.toString().length() - 2))));
+        PiAction transitAction = PiAction.builder()
+                .withId(IntConstants.ACT_INT_TRANSIT_ID)
+                .withParameter(transitIdParam)
+                .build();
+        TrafficTreatment treatment = DefaultTrafficTreatment.builder()
+                .piTableAction(transitAction)
+                .build();
+
+        FlowRule transitFlowRule = DefaultFlowRule.builder()
+                .withTreatment(treatment)
+                .fromApp(appId)
+                .withPriority(DEFAULT_PRIORITY)
+                .makePermanent()
+                .forDevice(deviceId)
+                .forTable(IntConstants.TBL_INT_INSERT_ID)
+                .build();
+        flowRules.add(transitFlowRule);
+
         for (PortNumber portNumber: hostPorts) {
             // process_set_source_sink.tb_set_source for each host-facing port
             PiCriterion ingressCriterion = PiCriterion.builder()
@@ -165,28 +193,6 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
                     .forTable(IntConstants.TBL_SET_SINK_ID)
                     .build();
             flowRules.add(sinkFlowRule);
-
-            // process_int_transit.tb_int_insert
-            PiActionParam transitIdParam = new PiActionParam(
-                    IntConstants.ACT_PRM_SWITCH_ID,
-                    ImmutableByteSequence.copyFrom(deviceId.hashCode()));
-            PiAction transitAction = PiAction.builder()
-                    .withId(IntConstants.ACT_INT_TRANSIT_ID)
-                    .withParameter(transitIdParam)
-                    .build();
-            TrafficTreatment treatment = DefaultTrafficTreatment.builder()
-                    .piTableAction(transitAction)
-                    .build();
-
-            FlowRule transitFlowRule = DefaultFlowRule.builder()
-                    .withTreatment(treatment)
-                    .fromApp(appId)
-                    .withPriority(DEFAULT_PRIORITY)
-                    .makePermanent()
-                    .forDevice(deviceId)
-                    .forTable(IntConstants.TBL_INT_INSERT_ID)
-                    .build();
-            flowRules.add(transitFlowRule);
         }
         flowRules.forEach(flowRule -> flowRuleService.applyFlowRules(flowRule));
 
@@ -209,64 +215,25 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
     @Override
     public void addWatchlistEntry(IntObjective obj) {
         // TODO: support different types of watchlist other than flow watchlist
-
-        //process_int_source.tb_int_source
-
-        // install given flow into INT ACL table
-//        int categoryParam = flow.category().stream().mapToInt(intCategory -> {
-//            int retVal = 0;
-//            switch (intCategory) {
-//                case TRACKED_FLOW:
-//                    retVal = 1;
-//                    break;
-//                case DROPPED_PACKET:
-//                    retVal = 2;
-//                    break;
-//                case CONGESTED_QUEUE:
-//                    retVal = 4;
-//                    break;
-//            }
-//            return retVal;
-//        }).sum();
-//        PiActionParam watchlistTypeParam = new PiActionParam(
-//                IntConstants.ACT_PRM_WATCHLIST_TYPE_ID,
-//                ImmutableByteSequence.copyFrom(categoryParam));
-//        PiActionParam sourceParam = new PiActionParam(IntConstants.ACT_PRM_SRC_ID, )
-//
-//        PiAction buildMetaAction = PiAction.builder()
-//                .withId(IntConstants.ACT_INT_BUILD_META_ID)
-//                .with
-//
-//
-//        //install given flow into flow watchlist
-//        PiAction setSourceAction = PiAction.builder().withId()
-//        TrafficTreatment treatment = DefaultTrafficTreatment.builder()
-//                .withId(IntConstants.ACT_INT_SET_SOURCE_ID)
-//
-//        FlowRule flowRule = DefaultFlowRule.builder()
-//                .forDevice(deviceId)
-//                .withSelector(flow.selector())
-//                .fromApp(flow.appId())
-//                .withPriority(flow.priority())
-//                .makePermanent()
-//                .forTable(IntConstants.TBL_SET_SOURCE_SINK_ID)
-//                .build();
-//
-//        flowRuleService.applyFlowRules(flowRule);
+        FlowRule flowRule = buildWatchlistEntry(obj);
+        if(flowRule != null) {
+            flowRuleService.applyFlowRules(flowRule);
+            log.debug("Watchlist entry {} has been installed on {}", flowRule, deviceId);
+        } else {
+            log.warn("Failed to install watchlist entry on {}", deviceId);
+        }
     }
-//
-//    @Override
-//    public void removeWatchlistEntry(IntFlow flow) {
-//        FlowRule flowRule = DefaultFlowRule.builder()
-//                .forDevice(deviceId)
-//                .withSelector(flow.selector())
-//                .fromApp(flow.appId())
-//                .withPriority(flow.priority())
-//                .makePermanent()
-//                .build();
-//
-//        flowRuleService.removeFlowRules(flowRule);
-//    }
+
+    @Override
+    public void removeWatchlistEntry(IntObjective obj) {
+        FlowRule flowRule = buildWatchlistEntry(obj);
+        if(flowRule != null) {
+            flowRuleService.removeFlowRules(flowRule);
+            log.debug("Watchlist entry {} has been removed from {}", flowRule, deviceId);
+        } else {
+            log.warn("Failed to remove watchlist entry on {}", deviceId);
+        }
+    }
 //
 //    @Override
 //    public void setupReportEntry(IntConfig config) {
@@ -342,4 +309,134 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
 //    public void removeIntSinkEntry(IntFlow flow) {
 //
 //    }
+    private boolean checkObjective(IntObjective obj) {
+        // Needed parameters
+        // srcAddr, dstAddr, srcPort, dstPort, maxHop, instruction bitmap
+        if (!obj.reportTypes().contains(IntObjective.IntReportType.TRACKED_FLOW)) {
+            log.warn("IntObjective should have TRACKED_FLOW as IntReportType.");
+            return false;
+        }
+        if (obj.reportTypes().contains(IntObjective.IntReportType.DROPPED_PACKET) ||
+                obj.reportTypes().contains(IntObjective.IntReportType.CONGESTED_QUEUE)) {
+            log.info("DROPPED_PACKET and CONGESTED_QUEUE as IntReportType are not supported yet. Ignoring...");
+        }
+        if (obj.metadataTypes().size() == 0) {
+            log.warn("At least one MetadataType needs to be specified.");
+            return false;
+        }
+        if (obj.selector().getCriterion(Criterion.Type.IPV4_DST) == null &&
+                obj.selector().getCriterion(Criterion.Type.IPV4_SRC) == null &&
+                obj.selector().getCriterion(Criterion.Type.TCP_SRC) == null &&
+                obj.selector().getCriterion(Criterion.Type.TCP_DST) == null &&
+                obj.selector().getCriterion(Criterion.Type.UDP_SRC) == null &&
+                obj.selector().getCriterion(Criterion.Type.UDP_DST) == null ) {
+            log.warn("Criteria other than IPV4_DST, IPV4_SRC, TCP_SRC, TCP_DST, UDP_SRC and UDP_DST are not supported.");
+            return false;
+        }
+        return true;
+    }
+
+    private int buildInstructionBitmap(Set<IntObjective.IntMetadataType> metadataTypes) {
+        int instBitmap = 0;
+        for (IntObjective.IntMetadataType metadataType : metadataTypes) {
+            switch(metadataType) {
+                case SWITCH_ID:
+                    instBitmap |= (1 << 15);
+                    break;
+                case L1_PORT_ID:
+                    instBitmap |= (1 << 14);
+                    break;
+                case HOP_LATENCY:
+                    instBitmap |= (1 << 13);
+                    break;
+                case QUEUE_OCCUPANCY:
+                    instBitmap |= (1 << 12);
+                    break;
+                case INGRESS_TIMESTAMP:
+                    instBitmap |= (1 << 11);
+                    break;
+                case EGRESS_TIMESTAMP:
+                    instBitmap |= (1 << 10);
+                    break;
+                case L2_PORT_ID:
+                    instBitmap |= (1 << 9);
+                    break;
+                case EGRESS_TX_UTIL:
+                    instBitmap |= (1 << 8);
+                    break;
+                default:
+                    log.info("Unsupported metadata type {}. Ignoring...", metadataType);
+                    break;
+            }
+        }
+        return instBitmap;
+    }
+
+    private FlowRule buildWatchlistEntry(IntObjective obj) {
+        if (!checkObjective(obj)) {
+            // Log message will be printed in checkObjective.
+            return null;
+        }
+
+        PiActionParam maxHopParam = new PiActionParam(
+                IntConstants.ACT_PRM_MAX_HOP_ID,
+                ImmutableByteSequence.copyFrom(MAX_HOP));
+        PiActionParam instCntParam = new PiActionParam(
+                IntConstants.ACT_PRM_INS_CNT_ID,
+                ImmutableByteSequence.copyFrom(obj.metadataTypes().size()));
+        PiActionParam inst0003Param = new PiActionParam(
+                IntConstants.ACT_PRM_INS_MASK0003_ID,
+                ImmutableByteSequence.copyFrom(buildInstructionBitmap(obj.metadataTypes()) >> 4));
+        PiActionParam inst0407Param = new PiActionParam(
+                IntConstants.ACT_PRM_INS_MASK0407_ID,
+                ImmutableByteSequence.copyFrom(buildInstructionBitmap(obj.metadataTypes()) & 0xF));
+
+        PiAction intSourceAction = PiAction.builder()
+                .withId(IntConstants.ACT_INT_SOURCE_DSCP_ID)
+                .withParameter(maxHopParam)
+                .withParameter(instCntParam)
+                .withParameter(inst0003Param)
+                .withParameter(inst0407Param)
+                .build();
+
+        TrafficTreatment instTreatment = DefaultTrafficTreatment.builder()
+                .piTableAction(intSourceAction)
+                .build();
+
+        TrafficSelector.Builder sBuilder = DefaultTrafficSelector.builder();
+        for (Criterion criterion : obj.selector().criteria()) {
+            switch(criterion.type()) {
+                case IPV4_SRC:
+                    sBuilder.matchIPSrc(((IPCriterion) criterion).ip());
+                    break;
+                case IPV4_DST:
+                    sBuilder.matchIPDst(((IPCriterion)criterion).ip());
+                    break;
+                case TCP_SRC:
+                case UDP_SRC:
+                    sBuilder.matchPi(
+                            PiCriterion.builder().matchTernary(
+                                    IntConstants.LOCAL_META_SRC_PORT_ID,
+                                    ((PortCriterion) criterion).port().toLong(), PORT_MASK)
+                                    .build());
+                    break;
+                case TCP_DST:
+                case UDP_DST:
+                    sBuilder.matchPi(
+                            PiCriterion.builder().matchTernary(
+                                    IntConstants.LOCAL_META_DST_PORT_ID,
+                                    ((PortCriterion) criterion).port().toLong(), PORT_MASK)
+                                    .build());
+                    break;
+            }
+        }
+
+        return DefaultFlowRule.builder()
+                .forDevice(deviceId)
+                .withSelector(sBuilder.build())
+                .withTreatment(instTreatment)
+                .withPriority(DEFAULT_PRIORITY)
+                .forTable(IntConstants.TBL_INT_SOURCE_ID)
+                .build();
+    }
 }
