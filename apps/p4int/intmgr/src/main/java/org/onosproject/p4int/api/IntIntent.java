@@ -46,56 +46,69 @@ public final class IntIntent {
      */
     public enum IntMetadataType {
         /**
-         * The unique ID of a switch.
+         * The unique ID of a switch. (bit 0)
          */
         SWITCH_ID,
         /**
-         * The ports on which the INT packet was received and sent out.
+         * The ports on which the INT packet was received and sent out. (bit 1)
          */
         L1_PORT_ID,
         /**
-         * Time taken for the INT packet to be switched within the device.
+         * Time taken for the INT packet to be switched within the device. (bit 2)
          */
         HOP_LATENCY,
         /**
          * The build-up of traffic in the queue that the INT packet observes
-         * in the device while being forwarded.
+         * in the device while being forwarded. (bit 3)
          */
         QUEUE_OCCUPANCY,
         /**
-         * The device local time when the INT packet was received on the ingress port.
+         * The device local time when the INT packet was received on the ingress port. (bit 4)
          */
         INGRESS_TIMESTAMP,
         /**
-         * The device local time when the INT packet was processed by the egress port.
+         * The device local time when the INT packet was processed by the egress port. (bit 5)
          */
         EGRESS_TIMESTAMP,
         /**
-         * The logical ports on which the INT packet was received and sent out.
+         * The logical ports on which the INT packet was received and sent out. (bit 6)
          */
         L2_PORT_ID,
         /**
-         * Current utilization of the egress port via witch the INT packet was sent out.
+         * Current utilization of the egress port via witch the INT packet was sent out. (bit 7)
          */
         EGRESS_TX_UTIL
     }
 
     /**
      * Represents an INT header type.
+     * (The exact value is not defined in the specification.
+     * Use arbitrary value now.)
      */
     public enum IntHeaderType {
         /**
-         * Intemediate devices must process this type of INT header.
+         * Intemediate devices must process this type of INT header. (bit 0)
          */
-        HOP_BY_HOP,
+        HOP_BY_HOP(1),
         /**
-         * Intemediate devices must ignore this type of INT header.
+         * Intemediate devices must ignore this type of INT header. (bit 1)
          */
-        DESTINATION
+        DESTINATION(2);
+
+        private int value;
+
+        private IntHeaderType(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
     /**
      * Represents a type of telemetry report.
+     * (Not needed for watchlist entry, but for report generation, trigerring events)
      */
     public enum IntReportType {
         /**
@@ -114,6 +127,7 @@ public final class IntIntent {
 
     /**
      * Represents telemetry mode.
+     * (Only use INBAND_TELEMETRY mode now. Can be ignored in device-level.)
      */
     public enum TelemetryMode {
         /**
@@ -278,9 +292,15 @@ public final class IntIntent {
             checkArgument(!selector.criteria().isEmpty(), "Empty selector cannot match any flow.");
             checkArgument(!metadataTypes.isEmpty(), "Metadata types cannot be empty.");
             checkNotNull(headerType, "Header type cannot be null.");
-            checkNotNull(!reportTypes.isEmpty(), "Report types cannot be empty.");
+            checkArgument(!reportTypes.isEmpty(), "Report types cannot be empty.");
             checkNotNull(telemetryMode, "Telemetry mode cannot be null.");
 
+            // TODO: remove these two lines when all types of report are suppoted.
+            checkArgument(reportTypes.contains(IntReportType.TRACKED_FLOW),
+                          "TRACKED_FLOW should be included.");
+            checkArgument(!reportTypes.contains(IntReportType.DROPPED_PACKET) &&
+                                  !reportTypes.contains(IntReportType.CONGESTED_QUEUE),
+                          "Report types other than TRACKED_FLOW are not supported yet.");
             return new IntIntent(selector, metadataTypes, headerType, reportTypes, telemetryMode);
         }
     }

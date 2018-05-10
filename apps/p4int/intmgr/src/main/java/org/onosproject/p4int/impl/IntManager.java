@@ -27,14 +27,13 @@ import org.onosproject.core.CoreService;
 import org.onosproject.net.Device;
 import org.onosproject.net.DeviceId;
 import org.onosproject.net.device.DeviceService;
-import org.onosproject.net.flow.FlowRule;
 import org.onosproject.net.flow.FlowRuleService;
 import org.onosproject.net.host.HostEvent;
 import org.onosproject.net.host.HostListener;
 import org.onosproject.net.host.HostService;
-import org.onosproject.net.topology.TopologyService;
 import org.onosproject.p4int.api.IntConfig;
 import org.onosproject.p4int.api.IntIntent;
+import org.onosproject.pipelines.basic.IntObjective;
 import org.onosproject.pipelines.basic.IntProgrammable;
 import org.onosproject.p4int.api.IntService;
 import org.onosproject.store.serializers.KryoNamespaces;
@@ -44,7 +43,6 @@ import org.onosproject.store.service.Serializer;
 import org.onosproject.store.service.StorageService;
 import org.slf4j.Logger;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -65,9 +63,6 @@ public class IntManager implements IntService {
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected CoreService coreService;
-
-    @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
-    protected TopologyService topologyService;
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected DeviceService deviceService;
@@ -176,33 +171,44 @@ public class IntManager implements IntService {
         Integer intentId = (int) intentIds.nextId();
 
         intentConsistentMap.put(intentId, intent);
-        // Convert IntIntent into an IntObjective
-        // Install IntObjective on each INT-capable device
 
-//        deviceService.getAvailableDevices().forEach(device -> {
-//            if (device.is(IntProgrammable.class)
-//                    && deviceRoleConsistentMap.get(device.id()).value() == IntDeviceRole.SOURCE_SINK) {
-//                IntProgrammable intDevice = device.as(IntProgrammable.class);
-//                intDevice.addWatchlistEntry(flow);
-//                intDevice.addIntSourceEntry(flow);
-//                intDevice.addIntSinkEntry(flow);
-//            }
-//        });
+        // Convert IntIntent into an IntObjective
+        IntObjective obj = new IntObjective.Builder()
+                .withSelector(intent.selector())
+                .withInstructionBitmap(buildInstructionBitmap(intent.metadataTypes()))
+                .withHeaderType(intent.headerType().getValue())
+                .build();
+
+        // Install IntObjective on each INT source device
+        deviceService.getAvailableDevices().forEach(device -> {
+            if (device.is(IntProgrammable.class)
+                    && deviceRoleConsistentMap.get(device.id()).value() == IntDeviceRole.SOURCE_SINK) {
+                IntProgrammable intDevice = device.as(IntProgrammable.class);
+                intDevice.addWatchlistEntry(obj);
+            }
+        });
         return intentId;
     }
 
     @Override
     public void removeIntIntent(int intentId) {
         IntIntent intent = intentConsistentMap.remove(intentId).value();
-        // Convert IntIntent into a set of flow rules
-        // Remove flow rules on each INT-capable device
 
-//        deviceService.getAvailableDevices().forEach(device -> {
-//            if (device.is(IntProgrammable.class)) {
-//                IntProgrammable intDevice = device.as(IntProgrammable.class);
-//                intDevice.removeWatchlistEntry(flow);
-//            }
-//        });
+        // Convert IntIntent into an IntObjective
+        IntObjective obj = new IntObjective.Builder()
+                .withSelector(intent.selector())
+                .withInstructionBitmap(buildInstructionBitmap(intent.metadataTypes()))
+                .withHeaderType(intent.headerType().getValue())
+                .build();
+
+        // Remove IntObjective on each INT source device
+        deviceService.getAvailableDevices().forEach(device -> {
+            if (device.is(IntProgrammable.class)
+                    && deviceRoleConsistentMap.get(device.id()).value() == IntDeviceRole.SOURCE_SINK) {
+                IntProgrammable intDevice = device.as(IntProgrammable.class);
+                intDevice.removeWatchlistEntry(obj);
+            }
+        });
     }
 
     @Override
@@ -216,19 +222,6 @@ public class IntManager implements IntService {
 
     private void setIntRole(DeviceId deviceId, IntDeviceRole role) {
         deviceRoleConsistentMap.put(deviceId, role);
-    }
-
-    /**
-     * Build a set of flow rules for given device.
-     *
-     * @param intent contains traffic slices and parameters to monitor
-     * @param deviceId device Id to apply flow rules
-     * @return a set of flow rules to be installed to specified device
-     */
-    private Set<FlowRule> buildIntFlowRules(IntIntent intent, DeviceId deviceId) {
-        Set<FlowRule> flowRules = new HashSet<>();
-
-        return flowRules;
     }
 
     private class InternalHostListener implements HostListener {
@@ -250,4 +243,42 @@ public class IntManager implements IntService {
             }
         }
     }
+
+    private int buildInstructionBitmap(Set<IntIntent.IntMetadataType> metadataTypes) {
+        int instBitmap = 0;
+        for (IntIntent.IntMetadataType metadataType : metadataTypes) {
+            switch(metadataType) {
+                case SWITCH_ID:
+                    instBitmap |= (1 << 15);
+                    break;
+                case L1_PORT_ID:
+                    instBitmap |= (1 << 14);
+                    break;
+                case HOP_LATENCY:
+                    instBitmap |= (1 << 13);
+                    break;
+                case QUEUE_OCCUPANCY:
+                    instBitmap |= (1 << 12);
+                    break;
+                case INGRESS_TIMESTAMP:
+                    instBitmap |= (1 << 11);
+                    break;
+                case EGRESS_TIMESTAMP:
+                    instBitmap |= (1 << 10);
+                    break;
+                case L2_PORT_ID:
+                    instBitmap |= (1 << 9);
+                    break;
+                case EGRESS_TX_UTIL:
+                    instBitmap |= (1 << 8);
+                    break;
+                default:
+                    log.info("Unsupported metadata type {}. Ignoring...", metadataType);
+                    break;
+            }
+        }
+        return instBitmap;
+    }
+
+
 }

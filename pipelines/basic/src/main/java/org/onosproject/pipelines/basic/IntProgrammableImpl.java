@@ -309,87 +309,20 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
 //    public void removeIntSinkEntry(IntFlow flow) {
 //
 //    }
-    private boolean checkObjective(IntObjective obj) {
-        // Needed parameters
-        // srcAddr, dstAddr, srcPort, dstPort, maxHop, instruction bitmap
-        if (!obj.reportTypes().contains(IntObjective.IntReportType.TRACKED_FLOW)) {
-            log.warn("IntObjective should have TRACKED_FLOW as IntReportType.");
-            return false;
-        }
-        if (obj.reportTypes().contains(IntObjective.IntReportType.DROPPED_PACKET) ||
-                obj.reportTypes().contains(IntObjective.IntReportType.CONGESTED_QUEUE)) {
-            log.info("DROPPED_PACKET and CONGESTED_QUEUE as IntReportType are not supported yet. Ignoring...");
-        }
-        if (obj.metadataTypes().size() == 0) {
-            log.warn("At least one MetadataType needs to be specified.");
-            return false;
-        }
-        if (obj.selector().getCriterion(Criterion.Type.IPV4_DST) == null &&
-                obj.selector().getCriterion(Criterion.Type.IPV4_SRC) == null &&
-                obj.selector().getCriterion(Criterion.Type.TCP_SRC) == null &&
-                obj.selector().getCriterion(Criterion.Type.TCP_DST) == null &&
-                obj.selector().getCriterion(Criterion.Type.UDP_SRC) == null &&
-                obj.selector().getCriterion(Criterion.Type.UDP_DST) == null ) {
-            log.warn("Criteria other than IPV4_DST, IPV4_SRC, TCP_SRC, TCP_DST, UDP_SRC and UDP_DST are not supported.");
-            return false;
-        }
-        return true;
-    }
-
-    private int buildInstructionBitmap(Set<IntObjective.IntMetadataType> metadataTypes) {
-        int instBitmap = 0;
-        for (IntObjective.IntMetadataType metadataType : metadataTypes) {
-            switch(metadataType) {
-                case SWITCH_ID:
-                    instBitmap |= (1 << 15);
-                    break;
-                case L1_PORT_ID:
-                    instBitmap |= (1 << 14);
-                    break;
-                case HOP_LATENCY:
-                    instBitmap |= (1 << 13);
-                    break;
-                case QUEUE_OCCUPANCY:
-                    instBitmap |= (1 << 12);
-                    break;
-                case INGRESS_TIMESTAMP:
-                    instBitmap |= (1 << 11);
-                    break;
-                case EGRESS_TIMESTAMP:
-                    instBitmap |= (1 << 10);
-                    break;
-                case L2_PORT_ID:
-                    instBitmap |= (1 << 9);
-                    break;
-                case EGRESS_TX_UTIL:
-                    instBitmap |= (1 << 8);
-                    break;
-                default:
-                    log.info("Unsupported metadata type {}. Ignoring...", metadataType);
-                    break;
-            }
-        }
-        return instBitmap;
-    }
 
     private FlowRule buildWatchlistEntry(IntObjective obj) {
-        if (!checkObjective(obj)) {
-            // Log message will be printed in checkObjective.
-            return null;
-        }
-
         PiActionParam maxHopParam = new PiActionParam(
                 IntConstants.ACT_PRM_MAX_HOP_ID,
                 ImmutableByteSequence.copyFrom(MAX_HOP));
         PiActionParam instCntParam = new PiActionParam(
                 IntConstants.ACT_PRM_INS_CNT_ID,
-                ImmutableByteSequence.copyFrom(obj.metadataTypes().size()));
+                ImmutableByteSequence.copyFrom(Integer.bitCount(obj.instructionBitmap())));
         PiActionParam inst0003Param = new PiActionParam(
                 IntConstants.ACT_PRM_INS_MASK0003_ID,
-                ImmutableByteSequence.copyFrom(buildInstructionBitmap(obj.metadataTypes()) >> 4));
+                ImmutableByteSequence.copyFrom(obj.instructionBitmap() >> 4));
         PiActionParam inst0407Param = new PiActionParam(
                 IntConstants.ACT_PRM_INS_MASK0407_ID,
-                ImmutableByteSequence.copyFrom(buildInstructionBitmap(obj.metadataTypes()) & 0xF));
+                ImmutableByteSequence.copyFrom(obj.instructionBitmap() & 0xF));
 
         PiAction intSourceAction = PiAction.builder()
                 .withId(IntConstants.ACT_INT_SOURCE_DSCP_ID)
@@ -428,6 +361,8 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
                                     ((PortCriterion) criterion).port().toLong(), PORT_MASK)
                                     .build());
                     break;
+                default:
+                    log.warn("Unsupported criterion type: {}", criterion.type());
             }
         }
 
