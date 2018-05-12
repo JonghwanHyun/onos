@@ -16,7 +16,6 @@
 package org.onosproject.p4int.api;
 
 import com.google.common.annotations.Beta;
-import com.google.common.collect.ImmutableSet;
 import org.onosproject.net.flow.DefaultTrafficSelector;
 import org.onosproject.net.flow.TrafficSelector;
 
@@ -25,6 +24,7 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.MoreObjects.toStringHelper;
 
 /**
  * Represents an INT monitoring intent. Each intent is made up of a traffic slice
@@ -219,6 +219,15 @@ public final class IntIntent {
     }
 
     /**
+     * Returns a new builder.
+     *
+     * @return new builder
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
      * An IntIntent builder.
      */
     public static final class Builder {
@@ -303,5 +312,15 @@ public final class IntIntent {
                           "Report types other than TRACKED_FLOW are not supported yet.");
             return new IntIntent(selector, metadataTypes, headerType, reportTypes, telemetryMode);
         }
+    }
+
+    public String toString() {
+        return toStringHelper(this)
+                .add("selector", selector())
+                .add("metadataTypes", metadataTypes())
+                .add("headerType", headerType())
+                .add("reportTypes", reportTypes())
+                .add("telemetryMode", telemetryMode())
+                .toString();
     }
 }

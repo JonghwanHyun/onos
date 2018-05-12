@@ -8,6 +8,7 @@ COMPILE_DEPS = [
     '//lib:KRYO',
     '//core/store/serializers:onos-core-serializers',
     '//pipelines/basic:onos-pipelines-basic',
+    '//apps/p4int/intmgr:onos-apps-p4int-intmgr',
 ]
 
 TEST_DEPS = [

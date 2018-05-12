@@ -17,7 +17,6 @@ package org.onosproject.p4int.api;
 
 import com.google.common.annotations.Beta;
 import org.onosproject.net.DeviceId;
-import org.onosproject.net.flow.FlowId;
 
 import java.util.Set;
 
