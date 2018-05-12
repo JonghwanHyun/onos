@@ -36,7 +36,8 @@ import org.onosproject.net.flow.TrafficTreatment;
 import org.onosproject.net.flow.criteria.Criterion;
 import org.onosproject.net.flow.criteria.IPCriterion;
 import org.onosproject.net.flow.criteria.PiCriterion;
-import org.onosproject.net.flow.criteria.PortCriterion;
+import org.onosproject.net.flow.criteria.TcpPortCriterion;
+import org.onosproject.net.flow.criteria.UdpPortCriterion;
 import org.onosproject.net.host.HostService;
 import org.onosproject.net.pi.model.PiActionId;
 import org.onosproject.net.pi.model.PiMatchFieldId;
@@ -58,6 +59,7 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
     private final int MAX_HOP = 64;
     private final int PORT_MASK = 0xffff;
     private final Logger log = getLogger(getClass());
+    private ApplicationId appId;
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     private FlowRuleService flowRuleService;
@@ -111,7 +113,8 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
                     .build();
 
     @Override
-    public void init(ApplicationId appId) {
+    public void init(ApplicationId applicationId) {
+        appId = applicationId;
         deviceId = this.data().deviceId();
         flowRuleService = this.handler().get(FlowRuleService.class);
         deviceService = this.handler().get(DeviceService.class);
@@ -346,19 +349,31 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
                     sBuilder.matchIPDst(((IPCriterion)criterion).ip());
                     break;
                 case TCP_SRC:
+                    sBuilder.matchPi(
+                            PiCriterion.builder().matchTernary(
+                                    IntConstants.LOCAL_META_SRC_PORT_ID,
+                                    ((TcpPortCriterion) criterion).tcpPort().toInt(), PORT_MASK)
+                                    .build());
+                    break;
                 case UDP_SRC:
                     sBuilder.matchPi(
                             PiCriterion.builder().matchTernary(
                                     IntConstants.LOCAL_META_SRC_PORT_ID,
-                                    ((PortCriterion) criterion).port().toLong(), PORT_MASK)
+                                    ((UdpPortCriterion) criterion).udpPort().toInt(), PORT_MASK)
                                     .build());
                     break;
                 case TCP_DST:
+                    sBuilder.matchPi(
+                            PiCriterion.builder().matchTernary(
+                                    IntConstants.LOCAL_META_DST_PORT_ID,
+                                    ((TcpPortCriterion)criterion).tcpPort().toInt(), PORT_MASK)
+                                    .build());
+                    break;
                 case UDP_DST:
                     sBuilder.matchPi(
                             PiCriterion.builder().matchTernary(
                                     IntConstants.LOCAL_META_DST_PORT_ID,
-                                    ((PortCriterion) criterion).port().toLong(), PORT_MASK)
+                                    ((UdpPortCriterion)criterion).udpPort().toInt(), PORT_MASK)
                                     .build());
                     break;
                 default:
@@ -372,6 +387,7 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
                 .withTreatment(instTreatment)
                 .withPriority(DEFAULT_PRIORITY)
                 .forTable(IntConstants.TBL_INT_SOURCE_ID)
+                .fromApp(appId)
                 .build();
     }
 }

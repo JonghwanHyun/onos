@@ -83,7 +83,11 @@ public class IntManager implements IntService {
         KryoNamespace.Builder serializer = KryoNamespace.newBuilder()
                 .register(KryoNamespaces.API)
                 .register(IntIntent.class)
-                .register(IntDeviceRole.class);
+                .register(IntDeviceRole.class)
+                .register(IntIntent.IntHeaderType.class)
+                .register(IntIntent.IntMetadataType.class)
+                .register(IntIntent.IntReportType.class)
+                .register(IntIntent.TelemetryMode.class);
 
         intentConsistentMap = storageService.<Integer, IntIntent>consistentMapBuilder()
                 .withSerializer(Serializer.using(serializer.build()))
