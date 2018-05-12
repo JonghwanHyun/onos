@@ -97,7 +97,7 @@ public final class IntIntent {
 
         private int value;
 
-        private IntHeaderType(int value) {
+        IntHeaderType(int value) {
             this.value = value;
         }
 

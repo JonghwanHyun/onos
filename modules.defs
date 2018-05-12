@@ -246,7 +246,7 @@ ONOS_APPS = [
     '//apps/mcast:onos-apps-mcast-oar',
     '//apps/layout:onos-apps-layout-oar',
     '//apps/imr:onos-apps-imr-oar',
-    '//apps/p4int/intmgr:onos-apps-p4int-intmgr-oar',
+    '//apps/p4int/app:onos-apps-p4int-app-oar',
 ]
 
 PROTOCOL_APPS = [
@@ -290,6 +290,7 @@ APP_JARS = [
 #   '//apps/p4runtime-test:onos-apps-p4runtime-test',
     '//apps/kafka-integration/api:onos-apps-kafka-integration-api',
     '//apps/kafka-integration/app:onos-apps-kafka-integration-app',
+    '//apps/p4int/intmgr:onos-apps-p4int-intmgr',
 ]
 
 APPS = ONOS_DRIVERS + ONOS_PROVIDERS + ONOS_APPS + MODELS + PIPELINES \

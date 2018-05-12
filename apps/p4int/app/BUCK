@@ -1,0 +1,36 @@
+BUNDLES = [
+    '//apps/p4int/intmgr:onos-apps-p4int-intmgr',
+    ':onos-apps-p4int-app',
+]
+
+COMPILE_DEPS = [
+    '//lib:CORE_DEPS',
+    '//lib:KRYO',
+    '//core/store/serializers:onos-core-serializers',
+    '//pipelines/basic:onos-pipelines-basic',
+]
+
+TEST_DEPS = [
+    '//lib:TEST_REST',
+#     '//web/api:onos-rest-tests',
+]
+
+osgi_jar_with_tests (
+    deps = COMPILE_DEPS,
+    test_deps = TEST_DEPS,
+#     web_context = '/onos/p4int',
+#     api_title = 'In-band Network Management API',
+#     api_version = '1.0',
+#     api_description = 'REST API for P4 INT',
+#     api_package = 'org.onosproject.p4int.rest',
+)
+
+onos_app (
+    app_name = 'org.onosproject.p4int.app',
+    title = 'P4 In-band Network Telemetry Service',
+    category = 'Monitoring',
+    url = 'http://onosproject.org',
+    description = 'Provides managements of INT-capable devices. Specifies flows to enable INT and' +
+    'types of metadata to collect. Sets up INT-related information.',
+    included_bundles = BUNDLES,
+)
