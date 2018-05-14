@@ -4,6 +4,7 @@ COMPILE_DEPS = [
     '//drivers/default:onos-drivers-default',
     '//protocols/p4runtime/model:onos-protocols-p4runtime-model',
     '//protocols/p4runtime/api:onos-protocols-p4runtime-api',
+    '//apps/inbandtelemetry/api:onos-apps-inbandtelemetry-api',
 ]
 
 BUNDLES = [
