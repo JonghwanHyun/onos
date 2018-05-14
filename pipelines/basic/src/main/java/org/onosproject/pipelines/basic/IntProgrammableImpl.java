@@ -60,6 +60,7 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
     private final int PORT_MASK = 0xffff;
     private final Logger log = getLogger(getClass());
     private ApplicationId appId;
+    private final int IDLE_TIMEOUT = 100;
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     private FlowRuleService flowRuleService;
@@ -220,6 +221,7 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
         // TODO: support different types of watchlist other than flow watchlist
         FlowRule flowRule = buildWatchlistEntry(obj);
         if(flowRule != null) {
+            flowRuleService = this.handler().get(FlowRuleService.class);
             flowRuleService.applyFlowRules(flowRule);
             log.debug("Watchlist entry {} has been installed on {}", flowRule, deviceId);
         } else {
@@ -231,6 +233,7 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
     public void removeWatchlistEntry(IntObjective obj) {
         FlowRule flowRule = buildWatchlistEntry(obj);
         if(flowRule != null) {
+            flowRuleService = this.handler().get(FlowRuleService.class);
             flowRuleService.removeFlowRules(flowRule);
             log.debug("Watchlist entry {} has been removed from {}", flowRule, deviceId);
         } else {
@@ -322,10 +325,10 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
                 ImmutableByteSequence.copyFrom(Integer.bitCount(obj.instructionBitmap())));
         PiActionParam inst0003Param = new PiActionParam(
                 IntConstants.ACT_PRM_INS_MASK0003_ID,
-                ImmutableByteSequence.copyFrom(obj.instructionBitmap() >> 4));
+                ImmutableByteSequence.copyFrom((obj.instructionBitmap() >> 12) & 0xF));
         PiActionParam inst0407Param = new PiActionParam(
                 IntConstants.ACT_PRM_INS_MASK0407_ID,
-                ImmutableByteSequence.copyFrom(obj.instructionBitmap() & 0xF));
+                ImmutableByteSequence.copyFrom((obj.instructionBitmap() >> 8) & 0xF));
 
         PiAction intSourceAction = PiAction.builder()
                 .withId(IntConstants.ACT_INT_SOURCE_DSCP_ID)
@@ -381,13 +384,15 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
             }
         }
 
+        // FIXME: update Cookie value
         return DefaultFlowRule.builder()
-                .forDevice(deviceId)
+                .forDevice(this.data().deviceId())
                 .withSelector(sBuilder.build())
                 .withTreatment(instTreatment)
                 .withPriority(DEFAULT_PRIORITY)
                 .forTable(IntConstants.TBL_INT_SOURCE_ID)
-                .fromApp(appId)
+                .withCookie(0)
+                .withIdleTimeout(IDLE_TIMEOUT)
                 .build();
     }
 }
