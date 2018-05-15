@@ -18,7 +18,9 @@
 #ifndef __CUSTOM_HEADERS__
 #define __CUSTOM_HEADERS__
 
-/* INT headers */
+#include "telemetry_report_headers.p4"
+
+// INT headers
 header int_header_t {
     bit<2>  ver;
     bit<2>  rep;
@@ -97,6 +99,14 @@ struct int_metadata_t {
 struct headers_t {
     packet_out_header_t packet_out;
     packet_in_header_t packet_in;
+    // INT Report Encapsulation
+    ethernet_t report_ethernet;
+    ipv4_t report_ipv4;
+    udp_t report_udp;
+    // INT Report Headers
+    report_fixed_header_t report_fixed_header;
+    local_report_t report_local;
+    // Original packet's headers
     ethernet_t ethernet;
     ipv4_t ipv4;
     tcp_t tcp;
@@ -123,6 +133,6 @@ struct local_metadata_t {
     next_hop_id_t next_hop_id;
     bit<16>       selector;
     int_metadata_t int_meta;
+    bool compute_checksum;
 }
-
 #endif
