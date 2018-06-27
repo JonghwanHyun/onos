@@ -23,11 +23,11 @@
 control host_meter_control(inout headers_t hdr,
                            inout local_metadata_t local_metadata,
                            inout standard_metadata_t standard_metadata) {
-    MeterColor meter_tag = MeterColor_GREEN;
-    direct_meter<MeterColor>(MeterType.bytes) host_meter;
+
+    direct_meter<bit<32>>(MeterType.bytes) host_meter;
 
     action read_meter() {
-        host_meter.read(meter_tag);
+        host_meter.read(local_metadata.meter_tag);
     }
 
     table host_meter_table {
@@ -43,8 +43,7 @@ control host_meter_control(inout headers_t hdr,
     }
 
     apply {
-        host_meter_table.apply();
-        if (meter_tag == MeterColor_RED) {
+        if (host_meter_table.apply().hit && local_metadata.meter_tag == 2) {
             mark_to_drop();
         }
      }
