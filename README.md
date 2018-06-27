@@ -1,141 +1,99 @@
-# ONOS : Open Network Operating System
+# ONOS INT Service implementation
+This repository includes ONOS INT service implementation, which is demonstrated at 5th P4 Workshop 2018.
 
-
-## What is ONOS?
-ONOS is the only SDN controller platform that supports the transition from legacy “brown field” networks to SDN “green field” networks.
-This enables exciting new capabilities, and disruptive deployment and operational cost points for network operators.
-
-## Top-Level Features
-
-* High availability through clustering and distributed state management.
-* Scalability through clustering and sharding of network device control.
-* Performance that is good for a first release, and which has an architecture
-  that will continue to support improvements.
-* Northbound abstractions for a global network view, network graph, and
-  application intents.
-* Pluggable southbound for support of OpenFlow and new or legacy protocols.
-* Graphical user interface to view multi-layer topologies and inspect elements
-  of the topology.
-* REST API for access to Northbound abstractions as well as CLI commands.
-* CLI for debugging.
-* Support for both proactive and reactive flow setup.
-* SDN-IP application to support interworking with traditional IP networks
-  controlled by distributed routing protocols such as BGP.
-* IP-Optical use case demonstration.
-
+For the details of the demonstration, please see followings:
+* [Abstract](https://p4.org/assets/P4WS_2018/11_INT-XDP_Abstract.pdf)
+* [Demo slide](https://p4.org/assets/P4WS_2018/11_Jonghwan_Hyun_INT-XDP.pdf)
+* [Demo poster](https://docs.google.com/presentation/d/1ygeJs0p1Rg5b7hiVtCqT9gOggAJMb8y9N00DNfzWJeI/edit?usp=sharing) 
+* [Demo video](https://youtu.be/ZXRef0IhXGM)
 
 ## Getting started
+### Requirements
+This work basically requires **Ubuntu 18.04 with kernel version >= v4.14**.
 
-### Dependencies
+Following software are also required:
+* Python 2.7
+* python-pip
+* mininet
 
-The following packages are reuqired:
+### Build ONOS
+To build ONOS, follow [this instruction](https://github.com/opennetworkinglab/onos#getting-started)
 
-* git
-* zip
-* curl
-* unzip
-* python2.7
-* Oracle JDK8
+Note that you need to clone this repository, instead of ONOS repository.
 
-To install Oracle JDK8, use following commands (Ubuntu):
-```bash
-$ sudo apt-get install software-properties-common -y && \
-  sudo add-apt-repository ppa:webupd8team/java -y && \
-  sudo apt-get update && \
-  echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections && \
-  sudo apt-get install oracle-java8-installer oracle-java8-set-default -y
+### Patch onos-setup-p4-dev for Ubuntu 18.04
+See [Patch for tools/dev/p4vm/install-p4-tools.sh]
+
+### Install p4tools
+```
+$ onos-setup-p4-dev
 ```
 
-### Build ONOS from source
+### Install BPFCollector
+See [BPFCollector](https://gitlab.com/tunv_ebpf/BPFCollector) for detailed instruction.
 
-1. Clone the code from ONOS gerrit repository
-```bash
-$ git clone https://gerrit.onosproject.org/onos
+### Add virtual interfaces for collector
 ```
-
-2. Add ONOS developer environment to your bash profile, no need to do this step again if you had done this before
-```bash
-$ cd onos
-$ cat << EOF >> ~/.bash_profile
-export ONOS_ROOT="`pwd`"
-source $ONOS_ROOT/tools/dev/bash_profile
-EOF
-$ . ~/.bash_profile
+$ sudo ip link add veth_11 type veth peer name veth_12
+$ sudo ip link add veth_21 type veth peer name veth_22
+$ sudo ip link set dev veth_11 up
+$ sudo ip link set dev veth_12 up
+$ sudo ip link set dev veth_21 up
+$ sudo ip link set dev veth_22 up
 ```
-
-3. Build ONOS with Buck
-```bash
-$ cd $ONOS_ROOT
-$ onos-buck build onos [--show-output]
+## How to run
+- Launch ONOS
 ```
-
-ONOS currently uses a modified version of Buck (`onos-buck`), which has been packaged with ONOS. Please use this version until our changes have been upstreamed and released as part of an official Buck release. 
-
-This will compile all source code assemble the installable onos.tar.gz, which is located in the buck-out directory. Note the --show-output option, which can be omitted, will display the path to this file.
-
-
-### Start ONOS on local machine
-
-To run ONOS locally on the development machine, simply run the following command:
-
-```bash
-$ onos-buck run onos-local [-- [clean] [debug]]
+$ ONOS_APPS=drivers.bmv2,proxyarp,lldpprovider,hostprovider buck run onos-local -- clean
 ```
-
-or simplier one:
-
-```bash
-$ ok [clean] [debug]
+- Launch Mininet
 ```
-
-The above command will create a local installation from the onos.tar.gz file (re-building it if necessary) and will start the ONOS server in the background.
-In the foreground, it will display a continuous view of the ONOS (Apache Karaf) log file.
-Options following the double-dash (–) are passed through to the ONOS Apache Karaf and can be omitted.
-Here, the `clean` option forces a clean installation of ONOS and the `debug` option means that the default debug port 5005 will be available for attaching a remote debugger.
-
-### Interacting with ONOS
-
-To access ONOS UI, use browser to open [http://localhost:8181/onos/ui](http://localhost:8181/onos/ui) or use `onos-gui localhost` command
-
-The default username and password is **onos/rocks**
-
-To attach to the ONOS CLI console, run:
-
-```bash
+$ sudo -E ~/onos/tools/test/topos/bmv2-demo-int.py --onos-ip=127.0.0.1 --pipeconf-id=org.onosproject.pipelines.int
+```
+- Launch collector
+```
+$ sudo systemctl start influxdb
+$ sudo python -E BPFCollector/InDBClient.py veth_22
+```
+- Activate INT sample application
+```
+$ onos-app localhost activate org.onosproject.inbandtelemetry.app
+```
+- Add mirroring configuration for telemetry report
+```
+$ simple_switch_CLI --thrift-port `cat /tmp/bmv2-s12-thrift-port`
+RuntimeCmd: mirroring_add 500 5
+  (500: REPORT_MIRROR_SESSION_ID defined in int_definitions.p4)
+  (5: port number to send mirrored packet, in this case veth_21)
+```
+- Add host to host intent
+```
 $ onos localhost
+onos> add-host-intent 00:00:00:00:01:01/None 00:00:00:00:02:02/None
+(Since there is no forwarding or routing application enabled, we add routes between hosts manually.)
+(h11 and h22 in Mininet topology, respectively)
 ```
 
-### Unit Tests
-
-To run ONOS unit tests, including code Checkstyle validation, run the following command:
-
-```bash
-$ onos-buck test
+- Add collector configuration
+  - Connect to ONOS web interface (http://localhost:8181/onos/ui/)
+  - Open "In-band Telemetry Control" in the menu
+  - Type 127.0.0.1 to "Collector IP" field and 54321 to "Collector Port" field
+  - Click "Deploy" button
+- Add IntIntent to specify traffic to monitor
+  - Go to "In-band Telemetry Control" page
+  - Fill in "Src Address", "Dst Address", "Src Port", "Dst Port" and "Protocol" field
+    - Src and Dst address fields accepts IP address with mask (e.g., 10.0.0.0/24)
+    - Src and Dst port number requires exact port number
+    - Protocol supports either TCP or UDP
+    - Any field remained empty, except Protocol field, means wildcard. 
+  - Choose metadata to collect
+    - **Switch Id** and **Egress timestamp** must be chosen so as to make Collecor to work properly.
+    - "Queue congestion status" and "Egress Port Tx Utilization" are not supported in current version of BMv2 software switch.
+  - Click "Deploy" button below the metadata to deploy INT Intent.
+  - Created INT Intent will be appeared in the table below.
+- Generate some traffic to monitor
 ```
-
-Or more specific tests:
-
-```bash
-$ onos-buck test [buck-test-rule]
+mininet> h11 iperf -c h22 -u -t 10000 -l 250B
 ```
-
-## Contributing
-
-ONOS code is hosted and maintained using [Gerrit](https://gerrit.onosproject.org/).
-
-Code on GitHub is only a mirror. The ONOS project does **NOT** accept code through pull requests on GitHub. 
-
-To contribute to ONOS, please refer to [Sample Gerrit Workflow](https://wiki.onosproject.org/display/ONOS/Sample+Gerrit+Workflow). It should includes most of the things you'll need to get your contribution started!
-
-
-## More information
-
-For more information, please check out our wiki page or mailing lists:
-
-* [Wiki](https://wiki.onosproject.org/)
-* [Google group](https://groups.google.com/a/onosproject.org/forum/#!forum/onos-dev)
-* [Slack](https://onosproject.slack.com)
-
-## License
-
-ONOS (Open Network Operating System) is published under [Apache License 2.0](https://github.com/opennetworkinglab/onos/blob/master/LICENSE.txt)
+- Connect Grafana to see the collected data
+  - http://localhost:3000
