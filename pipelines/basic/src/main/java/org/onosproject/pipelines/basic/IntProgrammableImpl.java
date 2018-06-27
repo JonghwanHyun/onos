@@ -68,6 +68,8 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
     private static final int PORTMASK = 0xffff;
     private static final int IDLE_TIMEOUT = 100;
     private static final int PKT_INSTANCE_TYPE_INGRESS_CLONE = 1;
+    // Application name of the pipeline which adds this implementation to the pipeconf
+    private static final String PIPELINE_APP_NAME = "org.onosproject.pipelines.basic";
     private final Logger log = getLogger(getClass());
     private ApplicationId appId;
 
@@ -138,7 +140,7 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
         deviceService = handler().get(DeviceService.class);
         hostService = handler().get(HostService.class);
         coreService = handler().get(CoreService.class);
-        appId = coreService.getAppId(this.data().driver().name());
+        appId = coreService.getAppId(PIPELINE_APP_NAME);
         if (appId == null) {
             log.warn("Application ID is null. Cannot initialize INT-pipeline.");
             return;
@@ -296,9 +298,9 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
 
     private FlowRule buildWatchlistEntry(IntObjective obj) {
         coreService = handler().get(CoreService.class);
-        appId = coreService.getAppId(this.data().driver().name());
+        appId = coreService.getAppId(PIPELINE_APP_NAME);
         if (appId == null) {
-            log.warn("Application ID is null. Cannot initialize INT-pipeline.");
+            log.warn("Application ID is null. Cannot build watchlist entry.");
             return null;
         }
         int instructionBitmap = buildInstructionBitmap(obj.metadataTypes());
@@ -472,7 +474,7 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
 
     private FlowRule buildReportEntry(IntConfig cfg, int type) {
         coreService = handler().get(CoreService.class);
-        ApplicationId appId = coreService.getAppId(this.data().driver().name());
+        appId = coreService.getAppId(PIPELINE_APP_NAME);
         if (appId == null) {
             log.warn("Application ID is null. Cannot build report entry.");
             return null;
@@ -521,5 +523,4 @@ public class IntProgrammableImpl extends AbstractHandlerBehaviour implements Int
                 .forTable(IntConstants.TBL_GENERATE_REPORT_ID)
                 .build();
     }
-
 }

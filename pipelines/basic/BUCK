@@ -9,6 +9,7 @@ COMPILE_DEPS = [
 
 BUNDLES = [
     '//pipelines/basic:onos-pipelines-basic',
+    '//apps/inbandtelemetry/api:onos-apps-inbandtelemetry-api',
 ]
 
 osgi_jar(

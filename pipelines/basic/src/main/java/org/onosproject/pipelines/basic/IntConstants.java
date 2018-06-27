@@ -35,7 +35,8 @@ public final class IntConstants {
 
     // Strings
     private static final String EGRESS = "egress";
-    private static final String CTRL_SET_SOURCE_SINK = EGRESS + DOT + "process_set_source_sink";
+    private static final String INGRESS = "ingress";
+    private static final String CTRL_SET_SOURCE_SINK = INGRESS + DOT + "process_set_source_sink";
     private static final String CTRL_INT_SOURCE = EGRESS + DOT + "process_int_source";
     private static final String CTRL_INT_TRANSIT = EGRESS + DOT + "process_int_transit";
     private static final String CTRL_INT_SINK = EGRESS + DOT + "process_int_sink";
@@ -56,7 +57,7 @@ public final class IntConstants {
     public static final PiMatchFieldId INT_HDR_INST_MASK_0407_ID =
             PiMatchFieldId.of(HDR + DOT + INT_HDR + DOT + "instruction_mask_0407");
     public static final PiMatchFieldId HDR_OUT_PORT_ID =
-            PiMatchFieldId.of(STANDARD_METADATA + DOT + "egress_port");
+            PiMatchFieldId.of(STANDARD_METADATA + DOT + "egress_spec");
     public static final PiMatchFieldId STD_META_INSTANCE_TYPE_ID =
             PiMatchFieldId.of(STANDARD_METADATA + DOT + "instance_type");
 

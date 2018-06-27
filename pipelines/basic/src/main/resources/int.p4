@@ -31,6 +31,7 @@
 #include "include/int_source.p4"
 #include "include/int_transit.p4"
 #include "include/int_sink.p4"
+#include "include/int_report.p4"
 
 control ingress (
     inout headers_t hdr,
@@ -41,6 +42,13 @@ control ingress (
         port_counters_ingress.apply(hdr, standard_metadata);
         packetio_ingress.apply(hdr, standard_metadata);
         table0_control.apply(hdr, local_metadata, standard_metadata);
+        process_set_source_sink.apply(hdr, local_metadata, standard_metadata);
+        if(hdr.int_header.isValid() && local_metadata.int_meta.sink == 1) {
+            // clone packet for Telemetry Report
+            // #ifdef __TARGET_BMV2__
+            clone(CloneType.I2E, REPORT_MIRROR_SESSION_ID);
+            // #endif
+        }
     }
 }
 
@@ -53,7 +61,6 @@ control egress (
         if (standard_metadata.ingress_port != CPU_PORT &&
             standard_metadata.egress_port != CPU_PORT &&
             (hdr.udp.isValid() || hdr.tcp.isValid())) {
-            process_set_source_sink.apply(hdr, local_metadata, standard_metadata);
             if (local_metadata.int_meta.source == 1) {
                 process_int_source.apply(hdr, local_metadata, standard_metadata);
             }
@@ -61,6 +68,10 @@ control egress (
                 process_int_transit.apply(hdr, local_metadata, standard_metadata);
                 // update underlay header based on INT information inserted
                 process_int_outer_encap.apply(hdr, local_metadata, standard_metadata);
+                if (standard_metadata.instance_type == PKT_INSTANCE_TYPE_INGRESS_CLONE) {
+                    /* send int report */
+                    process_int_report.apply(hdr, local_metadata, standard_metadata);
+                }
                 if (local_metadata.int_meta.sink == 1) {
                     // int sink
                     process_int_sink.apply(hdr, local_metadata, standard_metadata);
