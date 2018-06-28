@@ -21,9 +21,6 @@ To build ONOS, follow [this instruction](https://github.com/opennetworkinglab/on
 
 Note that you need to clone this repository, instead of ONOS repository.
 
-### Patch onos-setup-p4-dev for Ubuntu 18.04
-See [Patch for tools/dev/p4vm/install-p4-tools.sh]
-
 ### Install p4tools
 ```
 $ onos-setup-p4-dev
