@@ -1,6 +1,0 @@
-{
-  "event": "topo2PeerRegions",
-  "payload": {
-    "peers": []
-  }
-}
